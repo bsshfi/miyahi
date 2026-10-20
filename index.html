@@ -1,0 +1,597 @@
+<!doctype html>
+<html lang="ar" dir="rtl" data-theme="auto">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>مياهي</title>
+<meta name="description" content="متابعة عداد وفواتير الماء — قراءة فقط">
+<meta name="theme-color" content="#0B3A66">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="مياهي">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F2F5F9; --surface:#FFFFFF; --surface-2:#F6F8FB; --line:#E3E8EF;
+  --ink:#0F1B2D; --ink-2:#4A5A70; --muted:#8593A6;
+  --brand:#1673CF; --brand-ink:#0B3A66; --brand-soft:#E3F0FC;
+  --warn:#E8590C; --warn-soft:#FDEBDD;
+  --good:#1E8E4E; --good-soft:#E1F4E8;
+  --bad:#C92A2A; --bad-soft:#FBE3E3;
+  --amber:#B7791F; --amber-soft:#FCF1DC;
+  --tag:#F28C28;
+  --shadow:0 1px 2px rgba(15,27,45,.06),0 4px 16px rgba(15,27,45,.05);
+  --r:18px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0B1220; --surface:#131C2C; --surface-2:#18233A; --line:#24314A;
+    --ink:#EAF0F8; --ink-2:#B2BFD2; --muted:#7C8BA3;
+    --brand:#4DA3F0; --brand-ink:#CFE6FB; --brand-soft:#16304D;
+    --warn:#FF8A3D; --warn-soft:#3A2414;
+    --good:#4CC17E; --good-soft:#123222;
+    --bad:#FF6B6B; --bad-soft:#3A1818;
+    --amber:#F0B24A; --amber-soft:#36290F;
+    --shadow:none;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0B1220; --surface:#131C2C; --surface-2:#18233A; --line:#24314A;
+  --ink:#EAF0F8; --ink-2:#B2BFD2; --muted:#7C8BA3;
+  --brand:#4DA3F0; --brand-ink:#CFE6FB; --brand-soft:#16304D;
+  --warn:#FF8A3D; --warn-soft:#3A2414;
+  --good:#4CC17E; --good-soft:#123222;
+  --bad:#FF6B6B; --bad-soft:#3A1818;
+  --amber:#F0B24A; --amber-soft:#36290F;
+  --shadow:none;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--ink)}
+body{font-family:"IBM Plex Sans Arabic",-apple-system,"SF Arabic","Segoe UI",Tahoma,sans-serif;font-size:15px;line-height:1.5;
+  padding:env(safe-area-inset-top) 0 calc(env(safe-area-inset-bottom) + 24px)}
+.num{font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate;display:inline-block}
+.wrap{max-width:560px;margin:0 auto;padding:0 16px}
+header.top{display:flex;align-items:center;gap:12px;padding:14px 0 10px}
+header.top img{width:40px;height:40px;border-radius:11px}
+header.top .t{flex:1;min-width:0}
+header.top h1{font-size:20px;margin:0;font-weight:700;letter-spacing:0}
+header.top .sub{font-size:12px;color:var(--muted)}
+.iconbtn{width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--ink-2);
+  display:grid;place-items:center;cursor:pointer}
+.iconbtn svg{width:20px;height:20px}
+.iconbtn.spin svg{animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(-360deg)}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:16px;margin:12px 0}
+.card h2{font-size:14px;margin:0 0 12px;color:var(--ink-2);font-weight:600;display:flex;align-items:center;gap:8px}
+.card h2 .sp{flex:1}
+.hero{background:linear-gradient(135deg,#0B3A66,#1673CF);color:#fff;border:0}
+.hero .lbl{font-size:13px;opacity:.85}
+.hero .big{font-size:40px;font-weight:700;line-height:1.1;margin:4px 0}
+.hero .big small{font-size:16px;font-weight:500;opacity:.85}
+.hero .meta{display:flex;gap:8px;flex-wrap:wrap;font-size:13px;opacity:.95}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:600;white-space:nowrap}
+.hero .pill{background:rgba(255,255,255,.16);color:#fff}
+.chip-paid{background:var(--good-soft);color:var(--good)}
+.chip-issued{background:var(--bad-soft);color:var(--bad)}
+.chip-wait{background:var(--amber-soft);color:var(--amber)}
+.chip-open{background:var(--brand-soft);color:var(--brand)}
+.chip-t3{background:var(--warn-soft);color:var(--warn)}
+.chip-ok{background:var(--good-soft);color:var(--good)}
+.kpis{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.kpi{background:var(--surface-2);border-radius:14px;padding:10px 12px}
+.kpi .k{font-size:12px;color:var(--muted)}
+.kpi .v{font-size:20px;font-weight:700;margin-top:2px}
+.kpi .v small{font-size:12px;font-weight:500;color:var(--ink-2)}
+.kpi.accent{background:var(--brand-soft)}
+.kpi.accent .v{color:var(--brand-ink)}
+.meterbar{margin:6px 0 14px}
+.mb-track{position:relative;height:16px;border-radius:999px;background:var(--surface-2);border:1px solid var(--line);overflow:hidden}
+.mb-fill{position:absolute;top:0;bottom:0;right:0;border-radius:999px;background:var(--brand)}
+.mb-fill.t3{background:var(--warn)}
+.mb-proj{position:absolute;top:-3px;bottom:-3px;width:0;border-right:2px dashed var(--ink-2)}
+.mb-tick{position:absolute;top:0;bottom:0;width:2px;background:var(--surface)}
+.mb-labels{position:relative;height:30px;font-size:11px;color:var(--muted)}
+.mb-labels span{position:absolute;top:4px;transform:translateX(50%);white-space:nowrap;text-align:center;line-height:1.2}
+.mb-legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--ink-2)}
+.mb-legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-inline-end:5px;vertical-align:-1px}
+.days{display:flex;align-items:center;gap:10px;font-size:12px;color:var(--ink-2);margin-top:12px}
+.days .tr{flex:1;height:6px;border-radius:99px;background:var(--surface-2);overflow:hidden}
+.days .tr b{display:block;height:100%;background:var(--ink-2);opacity:.5;border-radius:99px;margin-inline-start:auto}
+.note{font-size:13px;color:var(--ink-2);margin-top:10px;padding:10px 12px;border-radius:12px;background:var(--surface-2)}
+.note.ok{background:var(--good-soft);color:var(--good)}
+.note.bad{background:var(--warn-soft);color:var(--warn)}
+.row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-top:1px solid var(--line);gap:10px}
+.row:first-of-type{border-top:0}
+.row .l{color:var(--ink-2);font-size:14px}
+.row .r{font-weight:600}
+.chart{position:relative}
+.chart svg{display:block;width:100%;height:auto;overflow:visible}
+.chart .axis{fill:var(--muted);font-size:10px;font-family:inherit}
+.chart .grid{stroke:var(--line);stroke-width:1}
+.chart .ref{stroke:var(--warn);stroke-width:1.5;stroke-dasharray:5 4}
+.chart .reflbl{fill:var(--warn);font-size:10px;font-weight:600}
+.chart .bar{cursor:pointer}
+.chart .hit{fill:transparent;cursor:pointer}
+.tip{position:absolute;pointer-events:none;background:var(--ink);color:var(--surface);font-size:12px;padding:6px 9px;border-radius:9px;
+  white-space:nowrap;transform:translate(50%,-100%);opacity:0;transition:opacity .12s;z-index:2;line-height:1.4}
+.tip.on{opacity:1}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--ink-2);margin-top:8px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-inline-end:5px;vertical-align:-1px}
+.legend i.dash{width:16px;height:0;border-radius:0;border-top:2px dashed var(--warn);vertical-align:3px}
+.list .it{display:grid;grid-template-columns:1fr auto;gap:2px 10px;padding:10px 0;border-top:1px solid var(--line)}
+.list .it:first-child{border-top:0}
+.list .a{font-weight:600}
+.list .b{color:var(--muted);font-size:12px}
+.list .c{text-align:left;font-weight:600}
+.list .d{text-align:left;font-size:12px;color:var(--muted)}
+.more{background:none;border:0;color:var(--brand);font:inherit;font-size:13px;font-weight:600;cursor:pointer;padding:8px 0 0}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:16px 0}
+.banner{font-size:12px;padding:8px 12px;border-radius:12px;margin-top:8px;background:var(--amber-soft);color:var(--amber);display:none}
+.banner.on{display:block}
+/* lock */
+#lock{position:fixed;inset:0;background:var(--bg);display:none;flex-direction:column;align-items:center;justify-content:center;padding:24px;z-index:10}
+#lock.on{display:flex}
+#lock img{width:84px;height:84px;border-radius:22px;margin-bottom:12px}
+#lock h1{margin:0;font-size:22px}
+#lock p{margin:4px 0 18px;color:var(--muted);font-size:14px;text-align:center}
+.dots{display:flex;gap:14px;direction:ltr;margin-bottom:10px}
+.dots i{width:14px;height:14px;border-radius:50%;border:2px solid var(--ink-2)}
+.dots i.f{background:var(--ink-2)}
+.dots.shake{animation:sh .35s}
+@keyframes sh{20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}
+.err{color:var(--bad);font-size:13px;min-height:20px;margin-bottom:8px;text-align:center}
+.pad{display:grid;grid-template-columns:repeat(3,76px);gap:14px;direction:ltr}
+.pad button{height:76px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;font-size:26px;font-weight:500;cursor:pointer}
+.pad button:active{background:var(--surface-2)}
+.pad .ghost{border:0;background:none;font-size:14px;color:var(--ink-2)}
+.linkbtn{background:none;border:0;color:var(--brand);font:inherit;font-size:14px;margin-top:18px;cursor:pointer}
+.rec{display:none;width:100%;max-width:320px;margin-top:12px}
+.rec.on{display:block}
+.rec input{width:100%;padding:12px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;direction:ltr;text-align:center}
+.btn{width:100%;margin-top:10px;padding:12px;border-radius:12px;border:0;background:var(--brand);color:#fff;font:inherit;font-weight:600;cursor:pointer}
+/* settings sheet */
+#sheet{position:fixed;inset:0;background:rgba(5,10,20,.45);display:none;align-items:flex-end;z-index:9}
+#sheet.on{display:flex}
+#sheet .in{background:var(--surface);width:100%;max-width:560px;margin:0 auto;border-radius:22px 22px 0 0;padding:18px 16px calc(env(safe-area-inset-bottom) + 18px);max-height:85vh;overflow:auto}
+#sheet h3{margin:0 0 12px;font-size:17px}
+.seg{display:flex;background:var(--surface-2);border-radius:12px;padding:3px;gap:3px;margin-bottom:16px}
+.seg button{flex:1;border:0;background:none;padding:8px;border-radius:10px;font:inherit;font-size:13px;color:var(--ink-2);cursor:pointer}
+.seg button.on{background:var(--surface);color:var(--ink);font-weight:600;box-shadow:var(--shadow)}
+.tog{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-top:1px solid var(--line);font-size:14px}
+.tog input{width:44px;height:26px;accent-color:var(--brand)}
+.sect-t{font-size:12px;color:var(--muted);margin:6px 0 2px}
+.danger{background:var(--bad-soft);color:var(--bad)}
+.hidden{display:none!important}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="top">
+    <img src="icon-192.png" alt="">
+    <div class="t">
+      <h1>مياهي</h1>
+      <div class="sub" id="updated">—</div>
+    </div>
+    <button class="iconbtn" id="btnRefresh" aria-label="تحديث">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 12a8 8 0 1 1-2.3-5.6"/><path d="M20 4v5h-5"/></svg>
+    </button>
+    <button class="iconbtn" id="btnSettings" aria-label="الإعدادات">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
+    </button>
+  </header>
+  <div class="banner" id="banner"></div>
+  <main id="app"></main>
+  <footer>
+    <div>مياهي <span class="num" id="ver"></span> · قراءة فقط من Bs-Water_Bills</div>
+    <div>فكرة وتطوير: <span class="num">bsshfi@gmail.com</span></div>
+  </footer>
+</div>
+
+<!-- Lock screen -->
+<div id="lock">
+  <img src="icon-192.png" alt="">
+  <h1>مياهي</h1>
+  <p id="lockMsg">ادخل رمز PIN (6 أرقام)</p>
+  <div class="dots" id="dots"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="err" id="pinErr"></div>
+  <div class="pad" id="pad"></div>
+  <button class="linkbtn" id="btnForgot">نسيت الرمز؟</button>
+  <div class="rec" id="rec">
+    <input id="recKey" placeholder="رمز الاسترجاع" autocomplete="off" autocapitalize="off" spellcheck="false">
+    <button class="btn" id="btnRec">دخول برمز الاسترجاع</button>
+  </div>
+</div>
+
+<!-- Settings -->
+<div id="sheet">
+  <div class="in">
+    <h3>الإعدادات</h3>
+    <div class="sect-t">المظهر</div>
+    <div class="seg" id="themeSeg">
+      <button data-v="auto">تلقائي</button><button data-v="light">فاتح</button><button data-v="dark">داكن</button>
+    </div>
+    <div class="sect-t">الأقسام الظاهرة</div>
+    <div id="secToggles"></div>
+    <button class="btn danger" id="btnLogout" style="margin-top:16px">قفل التطبيق وحذف الرمز من الجهاز</button>
+    <button class="btn" id="btnClose">تم</button>
+  </div>
+</div>
+
+<script>
+/* ============ الإعدادات ============ */
+const CONFIG = {
+  // الصق هنا رابط /exec حق سكربت Bs-Water_Bills
+  API_URL: 'https://script.google.com/macros/s/AKfycbyJVQAPojcEp9_o5l0JZzwrMbmExp6nBAuNv1P3fH7Oow6ygaZbRND_jxgzOglWhV5M/exec',
+  VERSION: '1.0.0'
+};
+
+const SECTIONS = [
+  ['period','الفترة الحالية'],['lastBill','آخر فاتورة رسمية'],['chartCons','رسم: الاستهلاك الشهري'],
+  ['chartAmount','رسم: مبلغ الفاتورة'],['chartRate','رسم: المعدل اليومي'],['stats','إحصائيات 12 شهر'],
+  ['meterLog','سجل العداد'],['bills','الفواتير']
+];
+const LS = {
+  get(k, d){ try{ const v = localStorage.getItem(k); return v === null ? d : JSON.parse(v); }catch(e){ return d; } },
+  set(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} },
+  del(k){ try{ localStorage.removeItem(k); }catch(e){} }
+};
+let settings = Object.assign({ theme:'auto', hidden:[] }, LS.get('bsw_settings', {}));
+let auth = LS.get('bsw_auth', null);   // {pin} أو {key}
+let DATA = null;
+const isDemo = /[?&]demo/.test(location.search) || !/^https:\/\/script\.google\.com\//.test(CONFIG.API_URL);
+
+const $ = s => document.querySelector(s);
+const f2 = n => n == null || isNaN(n) ? '—' : Number(n).toFixed(2);
+const f3 = n => n == null || isNaN(n) ? '—' : Number(n).toFixed(3);
+const f1 = n => n == null || isNaN(n) ? '—' : Number(n).toFixed(1);
+const MONTHS = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+const MSHORT = ['ينا','فبر','مار','أبر','ماي','يون','يول','أغس','سبت','أكت','نوف','ديس'];
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function monthName(ym){ const m = /^(\d{4})-(\d{2})/.exec(ym || ''); return m ? MONTHS[+m[2]-1] + ' ' + m[1] : (ym || '—'); }
+function monthShort(ym){ const m = /^(\d{4})-(\d{2})/.exec(ym || ''); return m ? MSHORT[+m[2]-1] : ''; }
+function dShort(ymd){ const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(ymd || ''); return m ? (+m[3]) + '/' + (+m[2]) : ymd; }
+function daysSince(ymd){
+  const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(ymd || ''); if(!m) return null;
+  const a = new Date(+m[1], +m[2]-1, +m[3]); const t = new Date(); t.setHours(0,0,0,0);
+  return Math.round((t - a) / 864e5);
+}
+function sinceText(n){ if(n == null) return ''; if(n <= 0) return 'اليوم'; if(n === 1) return 'أمس'; if(n === 2) return 'قبل يومين'; return n <= 10 ? `قبل ${n} أيام` : `قبل ${n} يوم`; }
+const isT3 = t => /الثالثة|الرابعة|الخامسة/.test(t || '');
+function statusChip(s){
+  const map = {'مدفوعة':'chip-paid','صدرت':'chip-issued','بانتظار الفاتورة':'chip-wait','جارية':'chip-open'};
+  return `<span class="pill ${map[s] || 'chip-open'}">${esc(s || '—')}</span>`;
+}
+function tierChip(t){ return `<span class="pill ${isT3(t) ? 'chip-t3' : 'chip-ok'}">${esc(t || '—')}</span>`; }
+
+/* ============ الثيم ============ */
+function applyTheme(){
+  document.documentElement.setAttribute('data-theme', settings.theme);
+  const dark = settings.theme === 'dark' || (settings.theme === 'auto' && matchMedia('(prefers-color-scheme: dark)').matches);
+  document.querySelector('meta[name=theme-color]').setAttribute('content', dark ? '#0B1220' : '#0B3A66');
+}
+applyTheme();
+matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change', applyTheme);
+
+/* ============ الرسوم ============ */
+function barChart(items, o){
+  // items: [{label, value, color, tip, faded}]
+  const W = 340, H = 170, pl = 30, pr = 6, pt = 14, pb = 22;
+  const vals = items.map(i => i.value || 0);
+  let max = Math.max(...vals, o.ref || 0) * 1.12 || 1;
+  const step = niceStep(max / 3); max = Math.ceil(max / step) * step;
+  const iw = W - pl - pr, ih = H - pt - pb, n = items.length;
+  const gap = 4, bw = Math.max(4, Math.min(22, iw / n - gap));
+  const y = v => pt + ih - (v / max) * ih;
+  // RTL: الأحدث يمين
+  const x = i => pl + iw - (i + 1) * (iw / n) + (iw / n - bw) / 2;
+  let s = '';
+  for(let v = 0; v <= max + 1e-9; v += step){
+    s += `<line class="grid" x1="${pl}" x2="${W-pr}" y1="${y(v)}" y2="${y(v)}"/>`;
+    s += `<text class="axis" x="${pl-5}" y="${y(v)+3}" text-anchor="end">${+v.toFixed(2)}</text>`;
+  }
+  items.forEach((it, i) => {
+    const v = it.value || 0, bh = Math.max(0, ih - (y(v) - pt)), bx = x(i), by = y(v), r = Math.min(4, bw/2, bh);
+    const path = bh <= 0 ? '' : `M${bx},${pt+ih} V${by+r} Q${bx},${by} ${bx+r},${by} H${bx+bw-r} Q${bx+bw},${by} ${bx+bw},${by+r} V${pt+ih} Z`;
+    s += `<path class="bar" d="${path}" fill="${it.color}" ${it.faded ? 'fill-opacity=".45" stroke="'+it.color+'" stroke-dasharray="3 2"' : ''}/>`;
+    s += `<rect class="hit" data-i="${i}" x="${bx - gap/2}" y="${pt}" width="${bw + gap}" height="${ih + pb}"/>`;
+    if(it.label && (n <= 14 || i % 2 === 0)) s += `<text class="axis" x="${bx + bw/2}" y="${H-6}" text-anchor="middle">${esc(it.label)}</text>`;
+  });
+  if(o.ref){
+    s += `<line class="ref" x1="${pl}" x2="${W-pr}" y1="${y(o.ref)}" y2="${y(o.ref)}"/>`;
+  }
+  const id = 'c' + Math.random().toString(36).slice(2,8);
+  setTimeout(() => wireTips(id, items, x, bw, W), 0);
+  return `<div class="chart" id="${id}"><svg viewBox="0 0 ${W} ${H}" direction="ltr" style="direction:ltr" role="img" aria-label="${esc(o.title||'')}">${s}</svg><div class="tip"></div></div>`;
+}
+function niceStep(raw){ const p = Math.pow(10, Math.floor(Math.log10(raw || 1))); const n = raw / p; return (n <= 1 ? 1 : n <= 2 ? 2 : n <= 5 ? 5 : 10) * p; }
+function wireTips(id, items, x, bw, W){
+  const el = document.getElementById(id); if(!el) return;
+  const tip = el.querySelector('.tip'), svg = el.querySelector('svg');
+  const show = i => {
+    const it = items[i]; if(!it) return;
+    tip.innerHTML = it.tip; const sc = svg.getBoundingClientRect().width / W;
+    const cx = (x(i) + bw/2) * sc; tip.style.left = cx + 'px'; tip.style.right = 'auto';
+    tip.style.transform = `translate(${cx < 70 ? '0' : cx > svg.getBoundingClientRect().width - 70 ? '-100%' : '-50%'},-100%)`;
+    tip.style.top = '8px'; tip.classList.add('on');
+  };
+  el.querySelectorAll('.hit').forEach(h => {
+    h.addEventListener('pointerenter', () => show(+h.dataset.i));
+    h.addEventListener('click', e => { e.stopPropagation(); show(+h.dataset.i); });
+  });
+  el.addEventListener('pointerleave', () => tip.classList.remove('on'));
+  document.addEventListener('click', () => tip.classList.remove('on'));
+}
+
+/* ============ الواجهة ============ */
+function render(){
+  const D = DATA; if(!D) return;
+  const c = D.current, lb = D.lastBill, st = D.stats;
+  const hidden = new Set(settings.hidden);
+  $('#updated').textContent = 'آخر تحديث: ' + (D.generatedAt || '—') + (isDemo ? ' · بيانات تجريبية' : '');
+  let h = '';
+
+  // آخر قراءة
+  const ds = daysSince(c.lastDate);
+  h += `<section class="card hero">
+    <div class="lbl">آخر قراءة للعداد</div>
+    <div class="big"><span class="num">${f3(c.lastRead)}</span> <small>م³</small></div>
+    <div class="meta"><span class="pill"><span class="num">${esc(c.lastDate)}</span></span><span class="pill">${sinceText(ds)}</span></div>
+  </section>`;
+
+  if(!hidden.has('period')){
+    const scaleMax = Math.max(c.lim3 || 45, c.projCons || 0, c.cons || 0) * 1.02;
+    const pct = v => Math.max(0, Math.min(100, (v / scaleMax) * 100));
+    const t3now = (c.cons || 0) > (c.lim2 || c.tier2Limit);
+    const left = c.left;
+    h += `<section class="card"><h2>الفترة الحالية <span class="sp"></span>${tierChip(c.tierProj)}</h2>
+      <div class="kpis">
+        <div class="kpi accent"><div class="k">الفاتورة المتوقعة</div><div class="v"><span class="num">${f2(c.billProj)}</span> <small>ريال</small></div></div>
+        <div class="kpi"><div class="k">الفاتورة حتى الآن</div><div class="v"><span class="num">${f2(c.billNow)}</span> <small>ريال</small></div></div>
+        <div class="kpi"><div class="k">استهلاك الفترة</div><div class="v"><span class="num">${f2(c.cons)}</span> <small>م³</small></div></div>
+        <div class="kpi"><div class="k">المتوقع لنهاية الفترة</div><div class="v"><span class="num">${f1(c.projCons)}</span> <small>م³</small></div></div>
+      </div>
+      <div class="meterbar" style="margin-top:16px">
+        <div class="mb-track">
+          <div class="mb-fill ${t3now ? 't3' : ''}" style="width:${pct(c.cons)}%"></div>
+          <div class="mb-tick" style="right:${pct(c.lim1)}%"></div>
+          <div class="mb-tick" style="right:${pct(c.lim2)}%"></div>
+          <div class="mb-proj" style="right:${pct(c.projCons)}%"></div>
+        </div>
+        <div class="mb-labels">
+          <span style="right:${pct(c.lim1)}%">ش1<br><b class="num">${f1(c.lim1)}</b></span>
+          <span style="right:${pct(c.lim2)}%;color:var(--warn)">بداية الثالثة<br><b class="num">${f1(c.lim2)}</b></span>
+        </div>
+        <div class="mb-legend"><span><i style="background:var(--brand)"></i>استهلاكك</span><span><i style="background:none;border:2px dashed var(--ink-2);width:8px;height:8px"></i>المتوقع</span></div>
+      </div>
+      ${left >= 0
+        ? `<div class="note ok">🟢 باقي لك <b class="num">${f2(left)}</b> م³ قبل الشريحة الثالثة — يعني <b class="num">${f2(c.allowedDaily)}</b> م³ باليوم لبقية الفترة</div>`
+        : `<div class="note bad">🔴 دخلت الشريحة الثالثة بـ <b class="num">${f2(-left)}</b> م³ — كل م³ إضافي بـ <b class="num">${f2(c.tier3Cost)}</b> ريال</div>`}
+      <div class="days"><span>اليوم <b class="num">${c.elapsed}</b> من <b class="num">${c.days}</b></span><div class="tr"><b style="width:${Math.min(100, c.elapsed / c.days * 100)}%"></b></div><span>معدلك <b class="num">${f2(c.daily)}</b> م³/يوم</span></div>
+      <div class="row" style="margin-top:8px"><span class="l">بداية الفترة</span><span class="r num">${esc(c.start)} · ${f3(c.startRead)}</span></div>
+      <div class="row"><span class="l">نهاية الفترة المتوقعة</span><span class="r num">${esc(c.end)}</span></div>
+    </section>`;
+  }
+
+  if(!hidden.has('lastBill')){
+    h += `<section class="card"><h2>آخر فاتورة رسمية <span class="sp"></span>${statusChip(lb.status)}</h2>
+      <div class="kpis">
+        <div class="kpi"><div class="k">${esc(monthName(lb.month))}</div><div class="v"><span class="num">${f2(lb.amount)}</span> <small>ريال</small></div></div>
+        <div class="kpi"><div class="k">الاستهلاك</div><div class="v"><span class="num">${f2(lb.cons)}</span> <small>م³</small></div></div>
+      </div>
+      <div class="row" style="margin-top:6px"><span class="l">تاريخ السداد</span><span class="r num">${esc(lb.paid || '—')}</span></div>
+      <div class="row"><span class="l">فواتير غير مدفوعة</span><span class="r num">${lb.unpaid ?? 0}</span></div>
+    </section>`;
+  }
+
+  const bills = (D.bills || []).slice(-12);
+  if(!hidden.has('chartCons') && bills.length){
+    const items = bills.slice().reverse().map(b => ({
+      label: monthShort(b.month), value: b.cons, faded: b.status === 'جارية',
+      color: isT3(b.tier) ? 'var(--warn)' : 'var(--brand)',
+      tip: `${esc(monthName(b.month))}<br><b class="num">${f2(b.cons)}</b> م³ · ${esc(b.tier)}${b.status === 'جارية' ? ' · جارية' : ''}`
+    }));
+    h += `<section class="card"><h2>الاستهلاك الشهري (م³)</h2>
+      ${barChart(items, { ref: 30, refLabel: 'حد الشريحة الثانية ≈ 30', title: 'الاستهلاك الشهري' })}
+      <div class="legend"><span><i style="background:var(--brand)"></i>الأولى/الثانية</span><span><i style="background:var(--warn)"></i>الثالثة</span><span><i style="background:var(--brand);opacity:.45"></i>الشهر الجاري (حتى الآن)</span><span><i class="dash"></i>حد الشريحة الثانية ≈ 30</span></div>
+    </section>`;
+  }
+  if(!hidden.has('chartAmount') && bills.length){
+    const items = bills.slice().reverse().map(b => {
+      const amt = b.official != null ? b.official : b.calc;
+      return { label: monthShort(b.month), value: amt, faded: b.official == null,
+        color: isT3(b.tier) ? 'var(--warn)' : 'var(--brand)',
+        tip: `${esc(monthName(b.month))}<br><b class="num">${f2(amt)}</b> ريال${b.official == null ? ' · تقديري' : ''}` };
+    });
+    h += `<section class="card"><h2>مبلغ الفاتورة (ريال)</h2>${barChart(items, { title: 'مبلغ الفاتورة' })}
+      <div class="legend"><span><i style="background:var(--brand)"></i>الأولى/الثانية</span><span><i style="background:var(--warn)"></i>دخلت الثالثة</span></div></section>`;
+  }
+  const mtr = (D.meter || []).filter(m => m.rate != null && m.days > 0);
+  if(!hidden.has('chartRate') && mtr.length){
+    const last = mtr.slice(-16);
+    const items = last.slice().reverse().map(m => ({
+      label: dShort(m.date), value: m.rate, color: m.rate > 1 ? 'var(--warn)' : 'var(--brand)',
+      tip: `<span class="num">${esc(m.date)}</span><br><b class="num">${f3(m.diff)}</b> م³ خلال <span class="num">${m.days}</span> يوم = <b class="num">${f2(m.rate)}</b>/يوم`
+    }));
+    h += `<section class="card"><h2>المعدل اليومي بين القراءات (م³/يوم)</h2>
+      ${barChart(items, { ref: 1, refLabel: 'حد الثانية 1.0/يوم', title: 'المعدل اليومي' })}
+      <div class="legend"><span><i style="background:var(--brand)"></i>أقل من 1 م³/يوم</span><span><i style="background:var(--warn)"></i>أعلى من 1 م³/يوم</span><span><i class="dash"></i>1 م³/يوم = حد الثانية</span></div></section>`;
+  }
+
+  if(!hidden.has('stats')){
+    h += `<section class="card"><h2>آخر 12 فاتورة رسمية</h2>
+      <div class="kpis">
+        <div class="kpi"><div class="k">متوسط الاستهلاك</div><div class="v"><span class="num">${f1(st.avgCons)}</span> <small>م³</small></div></div>
+        <div class="kpi"><div class="k">متوسط الفاتورة</div><div class="v"><span class="num">${f2(st.avgBill)}</span> <small>ريال</small></div></div>
+        <div class="kpi"><div class="k">إجمالي المدفوع</div><div class="v"><span class="num">${f2(st.totalPaid)}</span> <small>ريال</small></div></div>
+        <div class="kpi"><div class="k">إجمالي الاستهلاك</div><div class="v"><span class="num">${f1(st.totalCons)}</span> <small>م³</small></div></div>
+      </div>
+      <div class="row" style="margin-top:6px"><span class="l">أشهر دخلت الشريحة الثالثة</span><span class="r num" style="color:var(--warn)">${st.tier3Months ?? 0}</span></div>
+      <div class="row"><span class="l">دفعت بسبب الشريحة الثالثة</span><span class="r" style="color:var(--warn)"><span class="num">${f2(st.tier3Paid)}</span> ريال</span></div>
+      <div class="row"><span class="l">أعلى / أقل فاتورة</span><span class="r num">${f2(st.maxBill)} / ${f2(st.minBill)}</span></div>
+      <div class="row"><span class="l">استهلاك آخر 7 أيام</span><span class="r"><span class="num">${f3(st.last7)}</span> م³</span></div>
+      <div class="row"><span class="l">استهلاك آخر 30 يوم</span><span class="r"><span class="num">${f3(st.last30)}</span> م³</span></div>
+    </section>`;
+  }
+
+  if(!hidden.has('meterLog') && (D.meter || []).length){
+    const all = D.meter.slice().reverse();
+    h += `<section class="card"><h2>سجل العداد</h2><div class="list" id="meterList">${meterRows(all.slice(0, 8))}</div>
+      ${all.length > 8 ? `<button class="more" data-more="meter">عرض الكل (${all.length})</button>` : ''}</section>`;
+  }
+  if(!hidden.has('bills') && (D.bills || []).length){
+    const all = D.bills.slice().reverse();
+    h += `<section class="card"><h2>الفواتير</h2><div class="list" id="billList">${billRows(all.slice(0, 6))}</div>
+      ${all.length > 6 ? `<button class="more" data-more="bills">عرض الكل (${all.length})</button>` : ''}</section>`;
+  }
+  $('#app').innerHTML = h;
+  document.querySelectorAll('[data-more]').forEach(b => b.addEventListener('click', () => {
+    if(b.dataset.more === 'meter') $('#meterList').innerHTML = meterRows(D.meter.slice().reverse());
+    else $('#billList').innerHTML = billRows(D.bills.slice().reverse());
+    b.remove();
+  }));
+}
+function meterRows(rows){
+  return rows.map(m => `<div class="it">
+    <div class="a"><span class="num">${f3(m.value)}</span> م³</div>
+    <div class="c">${m.diff != null ? '<span class="num">+' + f3(m.diff) + '</span>' : '—'}</div>
+    <div class="b"><span class="num">${esc(m.date)}</span>${m.time ? ' · <span class="num">' + esc(m.time) + '</span>' : ''}${m.note ? ' · ' + esc(m.note) : ''}</div>
+    <div class="d">${m.rate != null ? '<span class="num">' + f2(m.rate) + '</span>/يوم' : ''}</div>
+  </div>`).join('');
+}
+function billRows(rows){
+  return rows.map(b => {
+    const amt = b.official != null ? b.official : b.calc;
+    return `<div class="it">
+      <div class="a">${esc(monthName(b.month))}</div>
+      <div class="c"><span class="num">${f2(amt)}</span> ريال</div>
+      <div class="b"><span class="num">${f2(b.cons)}</span> م³ · ${esc(b.tier)}${b.official == null ? ' · تقديري' : ''}</div>
+      <div class="d">${statusChip(b.status)}</div>
+    </div>`;
+  }).join('');
+}
+
+/* ============ البيانات ============ */
+function showBanner(t){ const b = $('#banner'); b.textContent = t || ''; b.classList.toggle('on', !!t); }
+async function load(){
+  if(isDemo){ DATA = DEMO; render(); return; }
+  if(!auth){ openLock(); return; }
+  const cached = LS.get('bsw_cache', null);
+  if(cached && !DATA){ DATA = cached; render(); }
+  const btn = $('#btnRefresh'); btn.classList.add('spin');
+  try{
+    const res = await api(auth);
+    if(res.ok){ DATA = res.data; LS.set('bsw_cache', DATA); showBanner(''); render(); }
+    else if(res.code === 'auth' || res.code === 'nopin'){ LS.del('bsw_auth'); auth = null; openLock(res.message); }
+    else showBanner(res.message || 'تعذر التحديث');
+  }catch(e){
+    showBanner(DATA ? 'غير متصل — تعرض آخر بيانات محفوظة' : 'تعذر الاتصال بالسكربت');
+  }finally{ btn.classList.remove('spin'); }
+}
+async function api(a){
+  const q = new URLSearchParams({ action:'data' });
+  if(a.pin) q.set('pin', a.pin); if(a.key) q.set('key', a.key);
+  q.set('_', Date.now());
+  const r = await fetch(CONFIG.API_URL + '?' + q.toString(), { cache:'no-store' });
+  return r.json();
+}
+
+/* ============ القفل ============ */
+let pin = '';
+function openLock(msg){
+  $('#lock').classList.add('on'); $('#pinErr').textContent = msg || ''; pin = ''; drawDots();
+}
+function drawDots(){ document.querySelectorAll('#dots i').forEach((d, i) => d.classList.toggle('f', i < pin.length)); }
+function buildPad(){
+  const keys = ['1','2','3','4','5','6','7','8','9','','0','⌫'];
+  $('#pad').innerHTML = keys.map(k => k === '' ? '<span></span>' : `<button class="${k === '⌫' ? 'ghost' : ''}" data-k="${k}">${k}</button>`).join('');
+  $('#pad').addEventListener('click', e => {
+    const k = e.target.closest('button')?.dataset.k; if(!k) return;
+    if(k === '⌫') pin = pin.slice(0, -1); else if(pin.length < 6) pin += k;
+    drawDots(); if(pin.length === 6) tryAuth({ pin });
+  });
+}
+async function tryAuth(a){
+  $('#pinErr').textContent = '...';
+  try{
+    const res = await api(a);
+    if(res.ok){
+      auth = a; LS.set('bsw_auth', a); DATA = res.data; LS.set('bsw_cache', DATA);
+      $('#lock').classList.remove('on'); $('#pinErr').textContent = ''; render();
+    }else{
+      $('#pinErr').textContent = res.message + (res.left != null ? ` (باقي ${res.left} محاولات)` : '');
+      $('#dots').classList.add('shake'); setTimeout(() => $('#dots').classList.remove('shake'), 400);
+      pin = ''; drawDots();
+    }
+  }catch(e){ $('#pinErr').textContent = 'تعذر الاتصال'; pin = ''; drawDots(); }
+}
+$('#btnForgot').addEventListener('click', () => $('#rec').classList.toggle('on'));
+$('#btnRec').addEventListener('click', () => { const k = $('#recKey').value.trim(); if(k) tryAuth({ key:k }); });
+
+/* ============ الإعدادات ============ */
+function openSheet(){
+  document.querySelectorAll('#themeSeg button').forEach(b => b.classList.toggle('on', b.dataset.v === settings.theme));
+  $('#secToggles').innerHTML = SECTIONS.map(([k, t]) =>
+    `<label class="tog"><span>${t}</span><input type="checkbox" data-s="${k}" ${settings.hidden.includes(k) ? '' : 'checked'}></label>`).join('');
+  $('#sheet').classList.add('on');
+}
+$('#themeSeg').addEventListener('click', e => {
+  const v = e.target.dataset.v; if(!v) return;
+  settings.theme = v; LS.set('bsw_settings', settings); applyTheme(); openSheet();
+});
+$('#secToggles').addEventListener('change', e => {
+  const k = e.target.dataset.s; if(!k) return;
+  settings.hidden = settings.hidden.filter(x => x !== k); if(!e.target.checked) settings.hidden.push(k);
+  LS.set('bsw_settings', settings); render();
+});
+$('#btnClose').addEventListener('click', () => $('#sheet').classList.remove('on'));
+$('#sheet').addEventListener('click', e => { if(e.target.id === 'sheet') $('#sheet').classList.remove('on'); });
+$('#btnLogout').addEventListener('click', () => {
+  LS.del('bsw_auth'); LS.del('bsw_cache'); auth = null; DATA = null; $('#app').innerHTML = '';
+  $('#sheet').classList.remove('on'); if(!isDemo) openLock();
+});
+$('#btnSettings').addEventListener('click', openSheet);
+$('#btnRefresh').addEventListener('click', load);
+document.addEventListener('visibilitychange', () => { if(document.visibilityState === 'visible' && auth) load(); });
+$('#ver').textContent = 'v' + CONFIG.VERSION;
+
+/* ============ بيانات تجريبية (تظهر لين تحط رابط /exec) ============ */
+const DEMO = {
+  generatedAt: '2026-10-20 08:40',
+  current: { start:'2026-10-01', startRead:1094.64, end:'2026-11-01', lastDate:'2026-10-16', lastRead:1105.241, elapsed:15, days:31,
+    cons:10.601, daily:0.707, projCons:21.91, billNow:7.78, billProj:18.27, tierProj:'الثانية', tier2Limit:31, left:20.399,
+    daysLeft:16, allowedDaily:1.275, tier3Cost:5.175, lim1:15.5, lim2:31, lim3:46.5 },
+  lastBill: { month:'2026-09', cons:19.6, amount:16.28, status:'مدفوعة', paid:'2026-10-04', unpaid:0 },
+  stats: { totalCons:353.04, avgCons:29.42, totalPaid:438.7, avgBill:36.56, tier3Months:5, tier3Paid:64.48, maxBill:49.6, minBill:16.28, last7:2.17, last30:16.65 },
+  bills: [
+    ['2025-08',31.22,'الثالثة',36.51,36.5],['2025-09',28.17,'الثانية',31.06,31.06],['2025-10',32.98,'الثالثة',45.62,45.62],
+    ['2025-11',28.24,'الثانية',31.18,31.18],['2025-12',33.46,'الثالثة',48.09,48.08],['2026-01',27.35,'الثانية',29.07,29.08],
+    ['2026-02',32.97,'الثالثة',49.59,49.6],['2026-03',33.47,'الثالثة',48.14,48.13],['2026-04',29.96,'الثانية',34.14,34.14],
+    ['2026-05',25.11,'الثانية',25.78,25.78],['2026-06',28.24,'الثانية',31.18,31.18],['2026-07',28.08,'الثانية',30.9,30.9],
+    ['2026-08',33.58,'الثالثة',48.72,48.73],['2026-09',19.6,'الثانية',16.28,16.28],['2026-10',10.601,'الأولى',7.78,null]
+  ].map(([month,cons,tier,calc,official],i,arr) => ({ month, cons, tier, calc, official,
+    status: i === arr.length-1 ? 'جارية' : 'مدفوعة', paid: month === '2026-09' ? '2026-10-04' : '' })),
+  meter: [
+    ['2026-08-30',1074.368],['2026-08-31',1075.039],['2026-09-05',1077.258],['2026-09-11',1079.133],['2026-09-19',1084.708],
+    ['2026-09-20',1085.896],['2026-09-21',1086.286],['2026-09-25',1090.586],['2026-09-27',1092.236],['2026-09-29',1092.573],
+    ['2026-09-30',1094.639],['2026-10-01',1095.726],['2026-10-04',1099.066],['2026-10-09',1100.586],['2026-10-10',1102.869],
+    ['2026-10-11',1104.255],['2026-10-16',1105.241]
+  ].map(([date,value],i,a) => {
+    if(!i) return { date, value, diff:null, days:null, rate:null, time:'', note:'' };
+    const diff = +(value - a[i-1][1]).toFixed(3), days = Math.round((new Date(date) - new Date(a[i-1][0])) / 864e5);
+    return { date, value, diff, days, rate: days ? +(diff/days).toFixed(3) : null, time: i === a.length-1 ? '18:38' : '', note:'' };
+  })
+};
+
+buildPad();
+load();
+if('serviceWorker' in navigator && !isDemo) navigator.serviceWorker.register('sw.js').catch(() => {});
+</script>
+</body>
+</html>

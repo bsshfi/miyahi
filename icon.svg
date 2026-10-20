@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0B3A66"/>
+      <stop offset="1" stop-color="#1877D2"/>
+    </linearGradient>
+    <linearGradient id="drop" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#D6ECFF"/>
+    </linearGradient>
+  </defs>
+  <rect width="1024" height="1024" fill="url(#bg)"/>
+  <!-- waves -->
+  <path d="M0 800 C 170 740 340 860 512 800 C 684 740 854 860 1024 800 L1024 1024 L0 1024 Z" fill="#FFFFFF" opacity="0.10"/>
+  <path d="M0 880 C 170 820 340 940 512 880 C 684 820 854 940 1024 880 L1024 1024 L0 1024 Z" fill="#FFFFFF" opacity="0.10"/>
+  <!-- drop -->
+  <path d="M512 170 C 512 170 290 440 290 610 A 222 222 0 0 0 734 610 C 734 440 512 170 512 170 Z" fill="url(#drop)"/>
+  <path d="M420 600 A 100 100 0 0 0 480 700" fill="none" stroke="#1877D2" stroke-width="26" stroke-linecap="round" opacity="0.55"/>
+  <!-- orange BS tag -->
+  <g transform="translate(600 150) rotate(14)">
+    <path d="M0 0 H250 A40 40 0 0 1 290 40 V160 A40 40 0 0 1 250 200 H0 L-70 100 Z" fill="#F28C28"/>
+    <circle cx="-8" cy="100" r="18" fill="#0B3A66"/>
+    <text x="140" y="138" text-anchor="middle" font-family="Arial Black, Arial, Helvetica, sans-serif" font-weight="900" font-size="118" fill="#FFFFFF">BS</text>
+  </g>
+</svg>
