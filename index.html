@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="ar" dir="rtl" data-theme="auto">
+<html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>مياهي</title>
 <meta name="description" content="متابعة عداد وفواتير الماء، محاكي الفاتورة وتعرفة 2027 — قراءة فقط">
-<meta name="theme-color" content="#1C64DA">
+<meta name="theme-color" content="#071A2E">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -18,51 +18,26 @@
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#EDF5FC; --surface:#FFFFFF; --surface-2:#F3F8FD; --line:#DCE8F4;
-  --ink:#0E2747; --ink-2:#47607E; --muted:#8299B3;
-  --sky:#38BDF8; --brand:#1E6FE0; --brand-ink:#123B7A; --brand-soft:#E2EFFD;
-  --warn:#F2711C; --warn-soft:#FEEBDC;
-  --good:#16935A; --good-soft:#DFF5E9;
-  --bad:#D13A3A; --bad-soft:#FCE4E4;
-  --amber:#B7791F; --amber-soft:#FCF1DC;
-  --bs:#5B21B6;
-  --hero-a:#3CC2F8; --hero-b:#1C64DA;
-  --t1:#8FD3F7; --t2:#2A86E8; --t3:#F2711C;
-  --shadow:0 1px 2px rgba(14,39,71,.05),0 8px 24px rgba(30,111,224,.08);
-  --r:22px;
-}
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
-    --bg:#08121F; --surface:#0F1D30; --surface-2:#14263D; --line:#1E334F;
-    --ink:#E8F1FB; --ink-2:#AFC2D9; --muted:#7690AE;
-    --sky:#5CCBFA; --brand:#5AA6F5; --brand-ink:#D3E7FC; --brand-soft:#15304F;
-    --warn:#FF9248; --warn-soft:#3A2414;
-    --good:#4CC98A; --good-soft:#10301F;
-    --bad:#FF6F6F; --bad-soft:#3A1717;
-    --amber:#F0B24A; --amber-soft:#36290F;
-    --bs:#B794F6;
-    --hero-a:#1A6FC7; --hero-b:#0E3A7A;
-    --t1:#5BB8E8; --t2:#3D8CEB; --t3:#FF9248;
-    --shadow:none;
-  }
-}
-:root[data-theme="dark"]{
-  --bg:#08121F; --surface:#0F1D30; --surface-2:#14263D; --line:#1E334F;
-  --ink:#E8F1FB; --ink-2:#AFC2D9; --muted:#7690AE;
-  --sky:#5CCBFA; --brand:#5AA6F5; --brand-ink:#D3E7FC; --brand-soft:#15304F;
-  --warn:#FF9248; --warn-soft:#3A2414;
-  --good:#4CC98A; --good-soft:#10301F;
-  --bad:#FF6F6F; --bad-soft:#3A1717;
+  --bg:#071A2E; --surface:#0F2744; --surface-2:#14304F; --line:#1F3F63;
+  --ink:#EAF3FC; --ink-2:#A9C6E2; --muted:#7F9DBD;
+  --sky:#5CC8FF; --brand:#4DA3F5; --brand-ink:#D3E7FC; --brand-soft:#17375C;
+  --warn:#FF9A52; --warn-soft:#3B2617;
+  --good:#4CC98A; --good-soft:#103222;
+  --bad:#FF7070; --bad-soft:#3B1818;
   --amber:#F0B24A; --amber-soft:#36290F;
   --bs:#B794F6;
   --hero-a:#1A6FC7; --hero-b:#0E3A7A;
-  --t1:#5BB8E8; --t2:#3D8CEB; --t3:#FF9248;
+  --t1:#5BB8E8; --t2:#3D8CEB; --t3:#FF9A52;
   --shadow:none;
+  --r:22px;
+  color-scheme:dark;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;background:var(--bg);color:var(--ink)}
+html{background:#071A2E}
+html,body{margin:0;color:var(--ink)}
+body{background:linear-gradient(180deg,#071A2E 0%,#0B2C52 60%,#0E3A6B 100%) fixed;min-height:100vh}
 body{font-family:"IBM Plex Sans Arabic",-apple-system,"SF Arabic","Segoe UI",Tahoma,sans-serif;font-size:15px;line-height:1.5;
-  padding:env(safe-area-inset-top) 0 calc(env(safe-area-inset-bottom) + 24px)}
+  padding:env(safe-area-inset-top) 0 calc(env(safe-area-inset-bottom) + 96px)}
 .num{font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate;display:inline-block}
 .wrap{max-width:560px;margin:0 auto;padding:0 16px}
 header.top{display:flex;align-items:center;gap:12px;padding:14px 0 10px}
@@ -76,9 +51,10 @@ header.top .sub{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hi
 .iconbtn svg{width:20px;height:20px}
 .iconbtn.spin svg{animation:spin 1s linear infinite}
 @keyframes spin{to{transform:rotate(-360deg)}}
-.tabs{display:flex;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:4px;gap:4px;margin:4px 0 6px;position:sticky;top:calc(env(safe-area-inset-top) + 6px);z-index:5;box-shadow:var(--shadow)}
+.tabs{position:fixed;left:16px;right:16px;bottom:calc(env(safe-area-inset-bottom) + 12px);max-width:528px;margin:0 auto;display:flex;gap:4px;padding:6px;border-radius:30px;background:rgba(6,20,38,.88);border:1px solid rgba(160,210,255,.18);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);z-index:6}
 .tabs button{flex:1;border:0;background:none;padding:9px 6px;border-radius:12px;font:inherit;font-size:14px;color:var(--ink-2);cursor:pointer;font-weight:500}
-.tabs button.on{background:linear-gradient(135deg,var(--hero-a),var(--hero-b));color:#fff;font-weight:700}
+.tabs button{border-radius:24px!important;height:46px}
+.tabs button.on{background:#1E7BE6;color:#fff;font-weight:700}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:16px;margin:12px 0}
 .card h2{font-size:14px;margin:0 0 12px;color:var(--ink-2);font-weight:600;display:flex;align-items:center;gap:8px}
 .card h2 .sp{flex:1}
@@ -231,9 +207,7 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:16px 0}
 .chips button.on{background:var(--brand-soft);color:var(--brand);border-color:transparent;font-weight:600}
 .res{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
 .res > div{border-radius:18px;padding:12px;background:var(--surface-2)}
-.res > div.n27{background:#F1EAFE}
-:root[data-theme="dark"] .res > div.n27{background:#2A1E47}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .res > div.n27{background:#2A1E47}}
+.res > div.n27{background:#2A1E47}
 .res .k{font-size:12px;color:var(--muted)}
 .res .v{font-size:24px;font-weight:700}
 .res .v small{font-size:12px;font-weight:500;color:var(--ink-2)}
@@ -247,6 +221,58 @@ table.bd tr.tot td{font-weight:700;border-bottom:0}
 .minis{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .minis .kpi{background:var(--surface-2);border-radius:16px;padding:10px 12px}
 .anom{color:var(--warn);font-weight:700}
+
+/* ===== v2.1 عمق ===== */
+.card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.10)}
+.kpis .kpi,.minis .kpi,.res > div{background:rgba(255,255,255,.06)}
+.trio .kpi{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.10)}
+.iconbtn{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.12)}
+.addbtn{height:42px;border-radius:21px;border:0;background:#1E7BE6;color:#fff;font:inherit;font-weight:700;font-size:14px;display:flex;align-items:center;gap:6px;padding:0 14px 0 12px;cursor:pointer;box-shadow:0 4px 16px rgba(30,123,230,.35)}
+.addbtn svg{width:18px;height:18px}
+.tankcard{padding:16px 16px 18px}
+.tankcard .hd{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink-2)}
+.tankcard .hd .sp{flex:1}
+.tankcard .hd .pill{background:rgba(255,255,255,.1);color:#fff}
+.tankcard .hd .pill.t3{background:rgba(255,154,82,.2);color:#FFC9A3}
+.tankrow{display:flex;gap:16px;margin-top:14px}
+.tank{position:relative;width:150px;height:270px;flex:none;border-radius:26px;background:rgba(255,255,255,.05);border:2px solid rgba(160,210,255,.28);overflow:hidden}
+.tank .z3{position:absolute;left:0;right:0;top:0;background:rgba(255,154,82,.10)}
+.tank .ln{position:absolute;left:0;right:0;border-top:1px solid rgba(255,255,255,.28)}
+.tank .proj{position:absolute;left:0;right:0;bottom:0;background:rgba(124,200,255,.08);border-top:2px dashed #FF9A52}
+.tank .water{position:absolute;left:0;right:0;bottom:0;background:linear-gradient(180deg,#5CC8FF,#1E7BE6);transition:height .8s ease}
+.tank .water.t3{background:linear-gradient(180deg,#FFB27D,#F2711C)}
+.tank .wave{position:absolute;left:-50%;width:200%;height:12px;top:-10px;animation:wv 6s linear infinite}
+@keyframes wv{to{transform:translateX(50%)}}
+@media (prefers-reduced-motion: reduce){.tank .wave{animation:none}}
+.tside{position:relative;flex:1;min-width:0;height:270px;font-size:12px;color:var(--ink-2)}
+.tside .lb{position:absolute;right:0;transform:translateY(50%);white-space:nowrap;line-height:1.3}
+.tside .lb b{color:#fff}
+.tside .lb.o, .tside .lb.o b{color:#FFB27D}
+.tside .now{position:absolute;right:0;bottom:0}
+.tside .now .v{font-size:38px;font-weight:700;color:#fff;line-height:1}
+.billrow{display:flex;align-items:flex-end;gap:10px;margin-top:18px}
+.billrow .m{flex:1}
+.billrow .k{font-size:13px;color:var(--ink-2)}
+.billrow .v{font-size:40px;font-weight:700;line-height:1.05}
+.billrow .v small{font-size:15px;font-weight:500;color:var(--ink-2)}
+.billrow .s{text-align:left;font-size:12px;color:var(--ink-2);padding-bottom:6px}
+.billrow .s b{display:block;font-size:18px;color:#fff}
+.bsheet{position:fixed;inset:0;background:rgba(2,8,18,.6);display:none;align-items:flex-end;z-index:9}
+.bsheet.on{display:flex}
+.bsheet .in{background:#0F2744;border:1px solid rgba(255,255,255,.08);width:100%;max-width:560px;margin:0 auto;border-radius:24px 24px 0 0;padding:18px 16px calc(env(safe-area-inset-bottom) + 18px);max-height:88vh;overflow:auto}
+.bsheet h3{margin:0 0 6px;font-size:17px}
+.bsheet .hint{margin:0 0 12px;font-size:13px;color:var(--ink-2)}
+.rdin{width:100%;font:inherit;font-size:34px;font-weight:700;text-align:center;direction:ltr;padding:12px;border-radius:16px;border:1px solid rgba(160,210,255,.3);background:rgba(255,255,255,.06);color:#fff;letter-spacing:1px}
+.rdin:focus,.rdnote:focus{outline:2px solid #4DA3F5;outline-offset:1px}
+.rdnote{width:100%;font:inherit;font-size:15px;padding:11px 12px;border-radius:14px;border:1px solid rgba(160,210,255,.2);background:rgba(255,255,255,.05);color:#fff;margin-bottom:6px}
+.rdprev{min-height:44px;margin:10px 0 12px;font-size:14px;padding:10px 12px;border-radius:14px;background:rgba(255,255,255,.05);color:var(--ink-2)}
+.rdprev b{color:#fff}
+.rdprev.bad{background:var(--bad-soft);color:var(--bad)}
+.rdprev.warn{background:var(--warn-soft);color:var(--warn)}
+.btn.ghost2{background:transparent;color:var(--ink-2)}
+.btn:disabled{opacity:.55}
+.toast{position:fixed;left:16px;right:16px;bottom:calc(env(safe-area-inset-bottom) + 84px);max-width:528px;margin:0 auto;background:#EAF3FC;color:#0E2747;border-radius:18px;padding:12px 14px;font-size:13.5px;line-height:1.55;white-space:pre-line;z-index:11;box-shadow:0 8px 30px rgba(0,0,0,.35);opacity:0;transform:translateY(10px);transition:all .25s;pointer-events:none}
+.toast.on{opacity:1;transform:none}
 </style>
 </head>
 <body>
@@ -258,6 +284,9 @@ table.bd tr.tot td{font-weight:700;border-bottom:0}
       <h1>مياهي <span class="bs">BS</span></h1>
       <div class="sub" id="updated">—</div>
     </div>
+    <button class="addbtn" id="btnAdd" aria-label="تسجيل قراءة جديدة">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span>قراءة</span>
+    </button>
     <button class="iconbtn" id="btnRefresh" aria-label="تحديث">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 12a8 8 0 1 1-2.3-5.6"/><path d="M20 4v5h-5"/></svg>
     </button>
@@ -267,6 +296,7 @@ table.bd tr.tot td{font-weight:700;border-bottom:0}
   </header>
   <nav class="tabs" id="tabs"><button data-t="home">الرئيسية</button><button data-t="sim">المحاكي</button><button data-t="analysis">التحليل</button><button data-t="log">السجل</button></nav>
   <div class="banner" id="banner"></div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <main id="app"></main>
   <footer>
     <div>مياهي <span class="num" id="ver"></span> · قراءة فقط من Bs-Water_Bills</div>
@@ -289,14 +319,26 @@ table.bd tr.tot td{font-weight:700;border-bottom:0}
   </div>
 </div>
 
+<!-- Add reading -->
+<div id="addSheet" class="bsheet">
+  <div class="in">
+    <h3>تسجيل قراءة العداد</h3>
+    <p class="hint">بعد ما يمتلي الخزان وتقفل العداد، اكتب الرقم كامل مثل ما هو على العداد.</p>
+    <label for="rdIn" class="sect-t">القراءة (م³)</label>
+    <input id="rdIn" class="rdin" inputmode="decimal" autocomplete="off" placeholder="0000.000">
+    <div class="rdprev" id="rdPrev"></div>
+    <label class="sect-t" for="rdNote">ملاحظة (اختياري)</label>
+    <input id="rdNote" class="rdnote" autocomplete="off" placeholder="مثلًا: فتحته ساعة ونص">
+    <div class="err" id="rdErr"></div>
+    <button class="btn" id="rdSave">حفظ القراءة</button>
+    <button class="btn ghost2" id="rdCancel">إلغاء</button>
+  </div>
+</div>
+
 <!-- Settings -->
-<div id="sheet">
+<div id="sheet" class="bsheet">
   <div class="in">
     <h3>الإعدادات</h3>
-    <div class="sect-t">المظهر</div>
-    <div class="seg" id="themeSeg">
-      <button data-v="auto">تلقائي</button><button data-v="light">فاتح</button><button data-v="dark">داكن</button>
-    </div>
     <div class="sect-t">الأقسام الظاهرة</div>
     <div id="secToggles"></div>
     <button class="btn danger" id="btnLogout" style="margin-top:16px">قفل التطبيق وحذف الرمز من الجهاز</button>
@@ -304,13 +346,31 @@ table.bd tr.tot td{font-weight:700;border-bottom:0}
   </div>
 </div>
 
+<script src="config.js"></script>
 <script>
 /* ============ الإعدادات ============ */
 const CONFIG = {
-  // الصق هنا رابط /exec حق سكربت Bs-Water_Bills
-  API_URL: 'https://script.google.com/macros/s/AKfycbyJVQAPojcEp9_o5l0JZzwrMbmExp6nBAuNv1P3fH7Oow6ygaZbRND_jxgzOglWhV5M/exec',
-  VERSION: '2.0.0'
+  // رابط /exec محفوظ في ملف config.js (ما يتغير مع التحديثات)
+  API_URL: (window.MIYAHI_API_URL || 'PASTE_YOUR_EXEC_URL_HERE').trim(),
+  VERSION: '2.1.0'
 };
+
+/* ============ تحديث تلقائي: إذا نزلت نسخة جديدة على GitHub يحدّث نفسه ============ */
+async function checkUpdate(){
+  try{
+    const r = await fetch('version.json?_=' + Date.now(), { cache:'no-store' });
+    if(!r.ok) return;
+    const v = (await r.json()).version;
+    if(!v || v === CONFIG.VERSION) return;
+    const key = 'bsw_upd_' + v;
+    if(sessionStorage.getItem(key)) return;           // منع التكرار لو ما تحدث الملف بعد
+    sessionStorage.setItem(key, '1');
+    showBanner('🔄 تحديث جديد (v' + v + ') — جاري التحميل…');
+    if('caches' in window){ const ks = await caches.keys(); await Promise.all(ks.map(k => caches.delete(k))); }
+    const reg = await navigator.serviceWorker?.getRegistration(); await reg?.update();
+    setTimeout(() => location.reload(), 600);
+  }catch(e){}
+}
 
 const SECTIONS = [
   ['period','الرئيسية: الفترة الحالية'],['alerts','الرئيسية: التنبيهات'],['y27','الرئيسية: أثر تعرفة 2027'],
@@ -407,14 +467,8 @@ function samePoint(c){
   return { prev, cons: s1 - s0 };
 }
 
-/* ============ الثيم ============ */
-function applyTheme(){
-  document.documentElement.setAttribute('data-theme', settings.theme);
-  const dark = settings.theme === 'dark' || (settings.theme === 'auto' && matchMedia('(prefers-color-scheme: dark)').matches);
-  document.querySelector('meta[name=theme-color]').setAttribute('content', dark ? '#08121F' : '#EDF5FC');
-}
-applyTheme();
-matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change', applyTheme);
+/* ============ مظهر واحد (عمق) ============ */
+document.documentElement.removeAttribute('data-theme');
 
 /* ============ الرسوم ============ */
 function barChart(items, o){
@@ -539,17 +593,7 @@ function homeHTML(D, hidden){
   const isNewPeriod = (c.start || '') >= effDate();
   let h = '';
   if(!hidden.has('period')){
-    h += `<section class="card hero">
-      <div class="hd"><span>الفترة الحالية · ${esc(monthName((c.start || '').slice(0,7)))}</span><span class="sp"></span>
-        <span class="pill ${t3 ? 't3' : ''}">المتوقع: ${esc(c.tierProj)}</span></div>
-      ${gauge(c)}
-      <div class="gcenter"><div class="v"><span class="num">${f2(c.cons)}</span> <small>م³</small></div>
-        <div class="s">استهلاك الفترة · المتوقع <span class="num">${f1(c.projCons)}</span> م³</div></div>
-      <div class="bill">
-        <div class="main"><div class="k">الفاتورة المتوقعة</div><div class="v"><span class="num">${f2(c.billProj)}</span> <small>ريال</small></div></div>
-        <div><div class="k">حتى الآن</div><div class="v"><span class="num">${f2(c.billNow)}</span> <small>ريال</small></div></div>
-      </div>
-    </section>`;
+    h += tankHTML(c);
     h += c.left >= 0
       ? `<div class="status ok"><span class="ic">🟢</span><span>باقي لك <b class="num">${f2(c.left)}</b> م³ قبل الشريحة الثالثة — يعني <b class="num">${f2(c.allowedDaily)}</b> م³ باليوم لبقية الفترة</span></div>`
       : `<div class="status bad"><span class="ic">🔴</span><span>دخلت الشريحة الثالثة بـ <b class="num">${f2(-c.left)}</b> م³ — كل م³ إضافي بـ <b class="num">${f2(c.tier3Cost)}</b> ريال</span></div>`;
@@ -824,12 +868,11 @@ $('#btnRec').addEventListener('click', () => { const k = $('#recKey').value.trim
 
 /* ============ الإعدادات ============ */
 function openSheet(){
-  document.querySelectorAll('#themeSeg button').forEach(b => b.classList.toggle('on', b.dataset.v === settings.theme));
   $('#secToggles').innerHTML = SECTIONS.map(([k, t]) =>
     `<label class="tog"><span>${t}</span><input type="checkbox" data-s="${k}" ${settings.hidden.includes(k) ? '' : 'checked'}></label>`).join('');
   $('#sheet').classList.add('on');
 }
-$('#themeSeg').addEventListener('click', e => { const v = e.target.dataset.v; if(!v) return; settings.theme = v; LS.set('bsw_settings', settings); applyTheme(); openSheet(); });
+
 $('#secToggles').addEventListener('change', e => {
   const k = e.target.dataset.s; if(!k) return;
   settings.hidden = settings.hidden.filter(x => x !== k); if(!e.target.checked) settings.hidden.push(k);
@@ -880,8 +923,100 @@ const DEMO = (() => {
   };
 })();
 
+
+/* ============ الخزان ============ */
+function tankHTML(c){
+  const lim1 = c.lim1 || 15, lim2 = c.lim2 || c.tier2Limit || 30, lim3 = c.lim3 || 45;
+  const max = Math.max(lim3, (c.projCons || 0) * 1.08, (c.cons || 0) * 1.08);
+  const pc = v => Math.max(0, Math.min(100, (v || 0) / max * 100));
+  const t3now = (c.cons || 0) > lim2, t3 = isT3(c.tierProj);
+  const projP = pc(c.projCons), consP = Math.max(2, pc(c.cons));
+  const lbls = [
+    [pc(lim2), `حد الثانية <b class="num">${f1(lim2)}</b>`, '']
+  ];
+  if(pc(lim1) > 38) lbls.push([pc(lim1), `حد الأولى <b class="num">${f1(lim1)}</b>`, '']);   // ما يتزاحم مع رقم الاستهلاك
+  // علامة المتوقع إذا ما تتزاحم مع خط الثانية
+  if(c.projCons && Math.abs(projP - pc(lim2)) > 7) lbls.push([projP, `المتوقع <b class="num">${f1(c.projCons)}</b>`, 'o']);
+  return `<section class="card tankcard">
+    <div class="hd"><span>${esc(monthName((c.start || '').slice(0,7)))} · اليوم <span class="num">${c.elapsed}</span> من <span class="num">${c.days}</span></span><span class="sp"></span>
+      <span class="pill ${t3 ? 't3' : ''}">المتوقع: ${esc(c.tierProj)}</span></div>
+    <div class="tankrow">
+      <div class="tank" role="img" aria-label="استهلاك الفترة ${f2(c.cons)} م³ من حد الثانية ${f1(lim2)}">
+        <div class="z3" style="height:${100 - pc(lim2)}%"></div>
+        <div class="ln" style="bottom:${pc(lim1)}%"></div>
+        <div class="ln" style="bottom:${pc(lim2)}%;border-top-color:rgba(255,180,125,.55)"></div>
+        <div class="proj" style="height:${projP}%"></div>
+        <div class="water ${t3now ? 't3' : ''}" style="height:${consP}%">
+          <svg class="wave" viewBox="0 0 200 12" preserveAspectRatio="none" aria-hidden="true"><path d="M0 6 Q12.5 0 25 6 T50 6 T75 6 T100 6 T125 6 T150 6 T175 6 T200 6 V12 H0 Z" fill="${t3now ? '#FFB27D' : '#5CC8FF'}"/></svg>
+        </div>
+      </div>
+      <div class="tside">
+        ${t3 ? `<div class="lb o" style="bottom:${100 - (100 - pc(lim2)) / 2}%"><b>الشريحة الثالثة</b></div>` : ''}
+        ${lbls.map(([b, t, k]) => `<div class="lb ${k}" style="bottom:${b}%">${t}</div>`).join('')}
+        <div class="now"><div>استهلاكك الآن</div><div class="v num">${f2(c.cons)}</div><div>م³ · <span class="num">${f2(c.daily)}</span> م³/يوم</div></div>
+      </div>
+    </div>
+    <div class="billrow">
+      <div class="m"><div class="k">الفاتورة المتوقعة</div><div class="v"><span class="num">${f2(c.billProj)}</span> <small>ريال</small></div></div>
+      <div class="s">حتى الآن<b class="num">${f2(c.billNow)}</b></div>
+    </div>
+  </section>`;
+}
+
+/* ============ تسجيل قراءة من التطبيق ============ */
+function toast(t){ const el = $('#toast'); el.textContent = t; el.classList.add('on'); clearTimeout(toast._t); toast._t = setTimeout(() => el.classList.remove('on'), 6000); }
+function lastMeter(){ const m = (DATA && DATA.meter) || []; return m.length ? m[m.length - 1] : null; }
+function parseReading(v){ return parseFloat(String(v).replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/[٫,]/g, '.').replace(/[^0-9.]/g, '')); }
+function openAdd(){
+  if(isDemo){ toast('التسجيل يشتغل بعد ما تحط رابط /exec في config.js'); return; }
+  if(!auth){ openLock(); return; }
+  $('#rdIn').value = ''; $('#rdNote').value = ''; $('#rdErr').textContent = ''; previewReading();
+  $('#addSheet').classList.add('on'); setTimeout(() => $('#rdIn').focus(), 120);
+}
+function previewReading(){
+  const el = $('#rdPrev'), lm = lastMeter(), v = parseReading($('#rdIn').value);
+  el.className = 'rdprev';
+  if(!lm){ el.textContent = ''; return; }
+  if(!(v > 0)){ el.innerHTML = `آخر قراءة <b class="num">${f3(lm.value)}</b> بتاريخ <span class="num">${esc(lm.date)}</span>`; return; }
+  const d = v - lm.value;
+  if(d < -0.0005){ el.classList.add('bad'); el.innerHTML = `الرقم أقل من آخر قراءة (<b class="num">${f3(lm.value)}</b>) — تأكد منه`; return; }
+  const days = Math.max(1, daysSince(lm.date) || 0);
+  if(d > 5) el.classList.add('warn');
+  el.innerHTML = `+<b class="num">${f3(d)}</b> م³ منذ <span class="num">${esc(lm.date)}</span> · <span class="num">${f2(d / days)}</span> م³/يوم${d > 5 ? ' — زيادة كبيرة، تأكد من الرقم' : ''}`;
+}
+async function saveReading(){
+  const v = parseReading($('#rdIn').value), lm = lastMeter();
+  if(!(v > 0)){ $('#rdErr').textContent = 'اكتب القراءة'; return; }
+  if(lm && v < lm.value - 0.0005){ $('#rdErr').textContent = 'القراءة أقل من آخر قراءة'; return; }
+  const btn = $('#rdSave'); btn.disabled = true; btn.textContent = 'جاري الحفظ…'; $('#rdErr').textContent = '';
+  const now = new Date();
+  const body = Object.assign({ action:'appreading', reading:v, date: ymdOf(now),
+    time: String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0'), note: $('#rdNote').value.trim() }, auth);
+  try{
+    const r = await fetch(CONFIG.API_URL, { method:'POST', headers:{ 'Content-Type':'text/plain;charset=utf-8' }, body: JSON.stringify(body) });
+    const res = await r.json();
+    if(res.ok){
+      $('#addSheet').classList.remove('on');
+      if(res.data){ DATA = res.data; LS.set('bsw_cache', DATA); render(); } else load();
+      toast(res.message || 'تم ✅');
+    }else{
+      $('#rdErr').textContent = res.message || 'ما تم الحفظ';
+      if(res.code === 'auth'){ LS.del('bsw_auth'); auth = null; }
+    }
+  }catch(e){ $('#rdErr').textContent = 'تعذر الاتصال — تأكد من النت وجرب مرة ثانية'; }
+  finally{ btn.disabled = false; btn.textContent = 'حفظ القراءة'; }
+}
+$('#btnAdd').addEventListener('click', openAdd);
+$('#rdIn').addEventListener('input', previewReading);
+$('#rdSave').addEventListener('click', saveReading);
+$('#rdIn').addEventListener('keydown', e => { if(e.key === 'Enter') saveReading(); });
+$('#rdCancel').addEventListener('click', () => $('#addSheet').classList.remove('on'));
+$('#addSheet').addEventListener('click', e => { if(e.target.id === 'addSheet') $('#addSheet').classList.remove('on'); });
+if(/[?&]add/.test(location.search)) setTimeout(openAdd, 600);
+
 buildPad();
 load();
+if(!/[?&]demo/.test(location.search)){ checkUpdate(); document.addEventListener('visibilitychange', () => { if(document.visibilityState === 'visible') checkUpdate(); }); }
 if('serviceWorker' in navigator && !isDemo) navigator.serviceWorker.register('sw.js').catch(() => {});
 </script>
 </body>
