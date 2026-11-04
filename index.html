@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>مياهي</title>
-<meta name="description" content="متابعة عداد وفواتير الماء — قراءة فقط">
+<meta name="description" content="متابعة عداد وفواتير الماء، محاكي الفاتورة وتعرفة 2027 — قراءة فقط">
 <meta name="theme-color" content="#1C64DA">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
@@ -197,6 +197,56 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:16px 0}
 .sect-t{font-size:12px;color:var(--muted);margin:6px 0 2px}
 .danger{background:var(--bad-soft);color:var(--bad)}
 .hidden{display:none!important}
+
+/* ===== v2 ===== */
+.tabs button{font-size:13px;padding:9px 4px}
+.alerts{display:flex;flex-direction:column;gap:8px;margin:12px 0}
+.alert{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;padding:11px 13px;border-radius:16px;border:1px solid transparent}
+.alert .ic{font-size:17px;line-height:1.25}
+.alert b{font-weight:700}
+.alert.warn{background:var(--warn-soft);color:var(--warn)}
+.alert.bad{background:var(--bad-soft);color:var(--bad)}
+.alert.amber{background:var(--amber-soft);color:var(--amber)}
+.alert.info{background:var(--brand-soft);color:var(--brand)}
+.y27{background:linear-gradient(135deg,#2B1B55,#5B21B6);color:#fff;border:0}
+.y27 h2{color:#E9DDFF}
+.y27 .cmp{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.y27 .cmp > div{background:rgba(255,255,255,.12);border-radius:16px;padding:10px 12px}
+.y27 .cmp > div.hi{background:#fff;color:#3B1A86}
+.y27 .k{font-size:12px;opacity:.85}
+.y27 .cmp > div.hi .k{color:#6B5A93;opacity:1}
+.y27 .v{font-size:22px;font-weight:700}
+.y27 .v small{font-size:12px;font-weight:500;opacity:.85}
+.y27 .foot{font-size:12.5px;margin-top:10px;opacity:.95}
+.y27 .cd{background:rgba(255,255,255,.18);color:#fff}
+.cmpline{display:flex;justify-content:space-between;gap:10px;font-size:13px;color:var(--ink-2);padding:8px 0;border-top:1px dashed var(--line)}
+.cmpline b{color:var(--ink)}
+/* simulator */
+.sim .big{font-size:34px;font-weight:700;text-align:center;line-height:1.1}
+.sim .big small{font-size:14px;font-weight:500;color:var(--ink-2)}
+.sim .sub{text-align:center;font-size:12px;color:var(--muted);margin-top:2px}
+.sim input[type=range]{direction:ltr;width:100%;margin:14px 0 4px;accent-color:var(--brand);height:28px}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 2px}
+.chips button{border:1px solid var(--line);background:var(--surface-2);color:var(--ink-2);font:inherit;font-size:12px;padding:6px 10px;border-radius:999px;cursor:pointer}
+.chips button.on{background:var(--brand-soft);color:var(--brand);border-color:transparent;font-weight:600}
+.res{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.res > div{border-radius:18px;padding:12px;background:var(--surface-2)}
+.res > div.n27{background:#F1EAFE}
+:root[data-theme="dark"] .res > div.n27{background:#2A1E47}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .res > div.n27{background:#2A1E47}}
+.res .k{font-size:12px;color:var(--muted)}
+.res .v{font-size:24px;font-weight:700}
+.res .v small{font-size:12px;font-weight:500;color:var(--ink-2)}
+.res .t{font-size:12px;margin-top:4px}
+table.bd{width:100%;border-collapse:collapse;font-size:13px;margin-top:12px}
+table.bd th{font-weight:600;color:var(--muted);font-size:12px;text-align:center;padding:6px 4px;border-bottom:1px solid var(--line)}
+table.bd th:first-child,table.bd td:first-child{text-align:right}
+table.bd td{padding:7px 4px;border-bottom:1px solid var(--line);text-align:center}
+table.bd tr.tot td{font-weight:700;border-bottom:0}
+.save{font-size:13px;padding:10px 12px;border-radius:14px;background:var(--good-soft);color:var(--good);margin-top:12px}
+.minis{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.minis .kpi{background:var(--surface-2);border-radius:16px;padding:10px 12px}
+.anom{color:var(--warn);font-weight:700}
 </style>
 </head>
 <body>
@@ -215,7 +265,7 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:16px 0}
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
     </button>
   </header>
-  <nav class="tabs" id="tabs"><button data-t="home">الرئيسية</button><button data-t="charts">الرسوم</button><button data-t="log">السجل</button></nav>
+  <nav class="tabs" id="tabs"><button data-t="home">الرئيسية</button><button data-t="sim">المحاكي</button><button data-t="analysis">التحليل</button><button data-t="log">السجل</button></nav>
   <div class="banner" id="banner"></div>
   <main id="app"></main>
   <footer>
@@ -258,14 +308,15 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:16px 0}
 /* ============ الإعدادات ============ */
 const CONFIG = {
   // الصق هنا رابط /exec حق سكربت Bs-Water_Bills
-  API_URL: 'https://script.google.com/macros/s/AKfycbyJVQAPojcEp9_o5l0JZzwrMbmExp6nBAuNv1P3fH7Oow6ygaZbRND_jxgzOglWhV5M/exec',
-  VERSION: '1.1.0'
+  API_URL: 'PASTE_YOUR_EXEC_URL_HERE',
+  VERSION: '2.0.0'
 };
 
 const SECTIONS = [
-  ['period','الرئيسية: الفترة الحالية'],['reading','الرئيسية: آخر قراءة'],['lastBill','الرئيسية: آخر فاتورة رسمية'],['mini','الرئيسية: آخر 6 أشهر'],['chartCons','رسم: الاستهلاك الشهري'],
-  ['chartAmount','رسم: مبلغ الفاتورة'],['chartRate','رسم: المعدل اليومي'],['stats','إحصائيات 12 شهر'],
-  ['meterLog','سجل العداد'],['bills','الفواتير']
+  ['period','الرئيسية: الفترة الحالية'],['alerts','الرئيسية: التنبيهات'],['y27','الرئيسية: أثر تعرفة 2027'],
+  ['reading','الرئيسية: آخر قراءة'],['lastBill','الرئيسية: آخر فاتورة رسمية'],
+  ['chartCons','التحليل: الاستهلاك الشهري'],['chart27','التحليل: الفاتورة الحالية مقابل 2027'],['chartRate','التحليل: المعدل اليومي'],
+  ['fills','التحليل: عادات التعبئة'],['stats','التحليل: إحصائيات 12 شهر'],['meterLog','السجل: سجل العداد'],['bills','السجل: الفواتير']
 ];
 const LS = {
   get(k, d){ try{ const v = localStorage.getItem(k); return v === null ? d : JSON.parse(v); }catch(e){ return d; } },
@@ -273,32 +324,88 @@ const LS = {
   del(k){ try{ localStorage.removeItem(k); }catch(e){} }
 };
 let settings = Object.assign({ theme:'auto', hidden:[] }, LS.get('bsw_settings', {}));
-let auth = LS.get('bsw_auth', null);   // {pin} أو {key}
+let auth = LS.get('bsw_auth', null);
 let DATA = null;
 const isDemo = /[?&]demo/.test(location.search) || !/^https:\/\/script\.google\.com\//.test(CONFIG.API_URL);
 
 const $ = s => document.querySelector(s);
+const r2 = x => Math.round((Number(x) + 1e-9) * 100) / 100;
 const f2 = n => n == null || isNaN(n) ? '—' : Number(n).toFixed(2);
 const f3 = n => n == null || isNaN(n) ? '—' : Number(n).toFixed(3);
 const f1 = n => n == null || isNaN(n) ? '—' : Number(n).toFixed(1);
+const f0 = n => n == null || isNaN(n) ? '—' : Math.round(n).toLocaleString('en-US');
 const MONTHS = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
 const MSHORT = ['ينا','فبر','مار','أبر','ماي','يون','يول','أغس','سبت','أكت','نوف','ديس'];
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 function monthName(ym){ const m = /^(\d{4})-(\d{2})/.exec(ym || ''); return m ? MONTHS[+m[2]-1] + ' ' + m[1] : (ym || '—'); }
 function monthShort(ym){ const m = /^(\d{4})-(\d{2})/.exec(ym || ''); return m ? MSHORT[+m[2]-1] : ''; }
 function dShort(ymd){ const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(ymd || ''); return m ? (+m[3]) + '/' + (+m[2]) : ymd; }
-function daysSince(ymd){
-  const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(ymd || ''); if(!m) return null;
-  const a = new Date(+m[1], +m[2]-1, +m[3]); const t = new Date(); t.setHours(0,0,0,0);
-  return Math.round((t - a) / 864e5);
-}
+function toDate(ymd){ const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(ymd || ''); return m ? new Date(+m[1], +m[2]-1, +m[3]) : null; }
+function ymdOf(d){ return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'); }
+function addDays(ymd, n){ const d = toDate(ymd); d.setDate(d.getDate() + n); return ymdOf(d); }
+function daysSince(ymd){ const a = toDate(ymd); if(!a) return null; const t = new Date(); t.setHours(0,0,0,0); return Math.round((t - a) / 864e5); }
 function sinceText(n){ if(n == null) return ''; if(n <= 0) return 'اليوم'; if(n === 1) return 'أمس'; if(n === 2) return 'قبل يومين'; return n <= 10 ? `قبل ${n} أيام` : `قبل ${n} يوم`; }
 const isT3 = t => /الثالثة|الرابعة|الخامسة/.test(t || '');
 function statusChip(s){
   const map = {'مدفوعة':'chip-paid','صدرت':'chip-issued','بانتظار الفاتورة':'chip-wait','جارية':'chip-open'};
   return `<span class="pill ${map[s] || 'chip-open'}">${esc(s || '—')}</span>`;
 }
-function tierChip(t){ return `<span class="pill ${isT3(t) ? 'chip-t3' : 'chip-ok'}">${esc(t || '—')}</span>`; }
+
+/* ============ التعرفة (نفس حسبة الشيت) ============ */
+const DEFAULT_TARIFF = {
+  old: { lim:[15,30,45,60], rate:[0.1,1,3,4,6], sewerPct:0.5, meter30:5, vat:0.15 },
+  n27: { eff:'2027-01-01', lim:[15,30,45], water:[1,2,4,6], sewer:[0.5,1,2,3], fixed30:30, vat:0.15 }
+};
+const T = () => (DATA && DATA.tariff && DATA.tariff.old && DATA.tariff.n27) ? DATA.tariff : DEFAULT_TARIFF;
+function tiered(c, L, rates){ // L: حدود متصاعدة، rates أطول بواحد
+  let v = Math.min(c, L[0]) * rates[0];
+  for(let i = 1; i < L.length; i++) v += Math.min(Math.max(c - L[i-1], 0), L[i] - L[i-1]) * rates[i];
+  return v + Math.max(c - L[L.length-1], 0) * rates[L.length];
+}
+function billOld(c, d){
+  const t = T().old, k = d / 30, L = t.lim.map(x => x * k);
+  const w = r2(tiered(c, L, t.rate)), s = r2(w * t.sewerPct), m = r2(t.meter30 * k);
+  const vat = r2(w * t.vat) + r2(s * t.vat) + r2(m * t.vat);
+  return { w, s, m, vat:r2(vat), total:r2(w + s + m + vat), tier:tierName(c, L, true) };
+}
+function billNew(c, d){
+  const t = T().n27, k = d / 30, L = t.lim.map(x => x * k);
+  const w = r2(tiered(c, L, t.water)), s = r2(tiered(c, L, t.sewer)), m = r2(t.fixed30 * k);
+  const vat = r2(w * t.vat) + r2(s * t.vat) + r2(m * t.vat);
+  return { w, s, m, vat:r2(vat), total:r2(w + s + m + vat), tier:tierName(c, L, false) };
+}
+function tierName(c, L, five){
+  const n = ['الأولى','الثانية','الثالثة','الرابعة','الخامسة'];
+  for(let i = 0; i < L.length; i++) if(c <= L[i]) return n[i];
+  return n[L.length];
+}
+function perM3(tier, isNew){ // كلفة م³ إضافي شامل الصرف والضريبة
+  const t = T(); const i = ['الأولى','الثانية','الثالثة','الرابعة','الخامسة'].indexOf(tier);
+  if(isNew) return (t.n27.water[i] + t.n27.sewer[i]) * (1 + t.n27.vat);
+  return t.old.rate[i] * (1 + t.old.sewerPct) * (1 + t.old.vat);
+}
+const effDate = () => T().n27.eff || '2027-01-01';
+
+/* ============ تحليلات من سجل العداد ============ */
+function meterAt(ymd){ // أعلى قراءة بتاريخ قبل ymd
+  let best = null; (DATA.meter || []).forEach(m => { if(m.date < ymd && (best == null || m.value > best)) best = m.value; }); return best;
+}
+function intervals(){ return (DATA.meter || []).filter(m => m.diff != null && m.diff >= 0 && m.days >= 1); }
+function median(a){ if(!a.length) return null; const s = a.slice().sort((x,y)=>x-y); const h = s.length >> 1; return s.length % 2 ? s[h] : (s[h-1] + s[h]) / 2; }
+function anomaly(){
+  const iv = intervals(); if(iv.length < 6) return null;
+  const med = median(iv.slice(-21, -1).map(m => m.rate));
+  const last = iv[iv.length - 1];
+  if(med && last.rate > Math.max(1.5, med * 2)) return { last, med };
+  return null;
+}
+function samePoint(c){
+  const prev = (DATA.bills || []).filter(b => b.status !== 'جارية').slice(-1)[0];
+  if(!prev || !c.start) return null;
+  const s0 = meterAt(prev.start), s1 = meterAt(addDays(prev.start, c.elapsed));
+  if(s0 == null || s1 == null || s1 < s0) return null;
+  return { prev, cons: s1 - s0 };
+}
 
 /* ============ الثيم ============ */
 function applyTheme(){
@@ -359,6 +466,35 @@ function wireTips(id, items, x, bw, W){
   document.addEventListener('click', () => tip.classList.remove('on'));
 }
 
+
+
+function groupedChart(items, o){
+  // items: [{label, a, b, tip}] — عمودين لكل شهر على نفس المحور (نفس الوحدة)
+  const W = 340, H = 170, pl = 32, pr = 6, pt = 14, pb = 22;
+  let max = Math.max(...items.map(i => Math.max(i.a || 0, i.b || 0))) * 1.1 || 1;
+  const step = niceStep(max / 3); max = Math.ceil(max / step) * step;
+  const iw = W - pl - pr, ih = H - pt - pb, n = items.length, slot = iw / n;
+  const bw = Math.max(3, Math.min(10, slot / 2 - 2));
+  const y = v => pt + ih - (v / max) * ih;
+  const x = i => pl + iw - (i + 1) * slot + (slot - (bw * 2 + 2)) / 2;
+  const bar = (bx, v, col) => { const by = y(v), bh = pt + ih - by, r = Math.min(3, bw/2, bh); if(bh <= 0) return '';
+    return `<path d="M${bx},${pt+ih} V${by+r} Q${bx},${by} ${bx+r},${by} H${bx+bw-r} Q${bx+bw},${by} ${bx+bw},${by+r} V${pt+ih} Z" fill="${col}"/>`; };
+  let s = '';
+  for(let v = 0; v <= max + 1e-9; v += step){
+    s += `<line class="grid" x1="${pl}" x2="${W-pr}" y1="${y(v)}" y2="${y(v)}"/><text class="axis" x="${pl-5}" y="${y(v)+3}" text-anchor="end">${+v.toFixed(0)}</text>`;
+  }
+  items.forEach((it, i) => {
+    const bx = x(i);
+    s += bar(bx, it.a, o.colA) + bar(bx + bw + 2, it.b, o.colB);
+    s += `<rect class="hit" data-i="${i}" x="${pl + iw - (i + 1) * slot}" y="${pt}" width="${slot}" height="${ih + pb}"/>`;
+    s += `<text class="axis" x="${bx + bw + 1}" y="${H-6}" text-anchor="middle">${esc(it.label)}</text>`;
+  });
+  const id = 'g' + Math.random().toString(36).slice(2,8);
+  const cx = i => x(i) - bw/2;
+  setTimeout(() => wireTips(id, items, cx, bw * 2 + 2, W), 0);
+  return `<div class="chart" id="${id}"><svg viewBox="0 0 ${W} ${H}" direction="ltr" style="direction:ltr" role="img" aria-label="${esc(o.title||'')}">${s}</svg><div class="tip"></div></div>`;
+}
+
 /* ============ العدّاد الدائري (مثل الأيقونة) ============ */
 function gauge(c){
   const W = 300, H = 162, cx = 150, cy = 150, R = 116, SW = 18;
@@ -390,165 +526,242 @@ function gauge(c){
   return `<svg class="gauge" viewBox="0 0 ${W} ${H}" direction="ltr" style="direction:ltr" role="img" aria-label="استهلاك الفترة مقابل حدود الشرائح">${s}</svg>`;
 }
 
-function sparkBars(bills){
-  const last = bills.slice(-6); if(!last.length) return '';
-  const mx = Math.max(...last.map(b => b.cons || 0), 1);
-  return `<div class="bars">${last.map(b => `<i class="${isT3(b.tier) ? 't3' : ''} ${b.status === 'جارية' ? 'cur' : ''}" style="height:${Math.max(4, (b.cons || 0) / mx * 100)}%" title="${esc(monthName(b.month))}: ${f2(b.cons)} م³"></i>`).join('')}</div>
-    <div class="bars-l">${last.map(b => `<span>${monthShort(b.month)}</span>`).join('')}</div>`;
-}
+
 
 /* ============ الواجهة ============ */
 let TAB = LS.get('bsw_tab', 'home');
-function setTab(t){ TAB = t; LS.set('bsw_tab', t); document.querySelectorAll('.tabs button').forEach(b => b.classList.toggle('on', b.dataset.t === t)); render(); window.scrollTo({ top: 0 }); }
+let SIM = null; // {daily, days}
+function setTab(t){ TAB = t; LS.set('bsw_tab', t); render(); window.scrollTo({ top: 0 }); }
+
+function homeHTML(D, hidden){
+  const c = D.current, lb = D.lastBill, bills = D.bills || [];
+  const t3 = isT3(c.tierProj);
+  const isNewPeriod = (c.start || '') >= effDate();
+  let h = '';
+  if(!hidden.has('period')){
+    h += `<section class="card hero">
+      <div class="hd"><span>الفترة الحالية · ${esc(monthName((c.start || '').slice(0,7)))}</span><span class="sp"></span>
+        <span class="pill ${t3 ? 't3' : ''}">المتوقع: ${esc(c.tierProj)}</span></div>
+      ${gauge(c)}
+      <div class="gcenter"><div class="v"><span class="num">${f2(c.cons)}</span> <small>م³</small></div>
+        <div class="s">استهلاك الفترة · المتوقع <span class="num">${f1(c.projCons)}</span> م³</div></div>
+      <div class="bill">
+        <div class="main"><div class="k">الفاتورة المتوقعة</div><div class="v"><span class="num">${f2(c.billProj)}</span> <small>ريال</small></div></div>
+        <div><div class="k">حتى الآن</div><div class="v"><span class="num">${f2(c.billNow)}</span> <small>ريال</small></div></div>
+      </div>
+    </section>`;
+    h += c.left >= 0
+      ? `<div class="status ok"><span class="ic">🟢</span><span>باقي لك <b class="num">${f2(c.left)}</b> م³ قبل الشريحة الثالثة — يعني <b class="num">${f2(c.allowedDaily)}</b> م³ باليوم لبقية الفترة</span></div>`
+      : `<div class="status bad"><span class="ic">🔴</span><span>دخلت الشريحة الثالثة بـ <b class="num">${f2(-c.left)}</b> م³ — كل م³ إضافي بـ <b class="num">${f2(c.tier3Cost)}</b> ريال</span></div>`;
+    const sp = samePoint(c);
+    const pct = sp && sp.cons > 0 ? (c.cons / sp.cons - 1) * 100 : null;
+    h += `<div class="trio">
+      <div class="kpi"><div class="k">معدلك اليومي</div><div class="v"><span class="num">${f2(c.daily)}</span> <small>م³</small></div>
+        <div class="d" style="color:var(--muted)"><span class="num">${f0(c.daily * 1000)}</span> لتر/يوم</div></div>
+      <div class="kpi"><div class="k">أيام الفترة</div><div class="v"><span class="num">${c.elapsed}/${c.days}</span></div><div class="d" style="color:var(--muted)">باقي <span class="num">${c.daysLeft}</span> يوم</div></div>
+      <div class="kpi"><div class="k">نفس الوقت ${sp ? 'في ' + esc(monthShort(sp.prev.month)) : 'الشهر الماضي'}</div>
+        <div class="v"><span class="num">${sp ? f1(sp.cons) : '—'}</span> <small>م³</small></div>
+        ${pct == null ? '' : `<div class="d ${pct > 0 ? 'up' : 'down'}"><span class="num">${pct > 0 ? '▲' : '▼'} ${Math.abs(pct).toFixed(0)}%</span> ${pct > 0 ? 'أكثر' : 'أقل'}</div>`}</div>
+    </div>`;
+  }
+
+  if(!hidden.has('alerts')){
+    const al = [];
+    if(lb.unpaid > 0) al.push(['bad','🧾',`عندك <b class="num">${lb.unpaid}</b> فاتورة ما انسددت`]);
+    const an = anomaly();
+    if(an) al.push(['warn','🚰',`آخر قراءة (<span class="num">${esc(an.last.date)}</span>) كانت <b class="num">${f2(an.last.rate)}</b> م³/يوم — أعلى من المعتاد (<span class="num">${f2(an.med)}</span>). إذا ما فيه سبب واضح، تأكد من العوّامة والتسريبات`]);
+    if(t3 && c.left >= 0) al.push(['warn','📈',`على معدلك الحالي بتدخل الشريحة الثالثة — خفّف لين <b class="num">${f2(c.allowedDaily)}</b> م³/يوم`]);
+    const ds = daysSince(c.lastDate);
+    if(ds != null && ds >= 4) al.push(['amber','⏰',`صار لك <b class="num">${ds}</b> أيام بدون قراءة — إذا عبّيت الخزان سجّلها من الاختصار`]);
+    if(al.length) h += `<div class="alerts">${al.map(([k,i,t]) => `<div class="alert ${k}"><span class="ic">${i}</span><span>${t}</span></div>`).join('')}</div>`;
+  }
+
+  if(!hidden.has('y27') && !isNewPeriod){
+    const n = billNew(c.projCons || 0, c.days || 30), o = billOld(c.projCons || 0, c.days || 30);
+    const left = daysSince(effDate()); const dleft = left == null ? null : -left;
+    const off = bills.filter(b => b.status !== 'جارية' && b.official != null).slice(-12);
+    const yrNow = off.reduce((s, b) => s + (b.official || 0), 0);
+    const yr27 = off.reduce((s, b) => s + (b.n27 != null ? b.n27 : billNew(b.cons || 0, b.days || 30).total), 0);
+    h += `<section class="card y27"><h2>تعرفة 2027 <span class="sp"></span>${dleft > 0 ? `<span class="pill cd">باقي <span class="num">${dleft}</span> يوم</span>` : ''}</h2>
+      <div class="cmp">
+        <div><div class="k">هالفترة بالتعرفة الحالية</div><div class="v"><span class="num">${f2(o.total)}</span> <small>ريال</small></div></div>
+        <div class="hi"><div class="k">نفس الاستهلاك في 2027</div><div class="v"><span class="num">${f2(n.total)}</span> <small>ريال</small></div></div>
+      </div>
+      <div class="foot">آخر ${off.length} فاتورة: <b class="num">${f0(yrNow)}</b> ريال ← في 2027 <b class="num">${f0(yr27)}</b> ريال (<b>+<span class="num">${f0(yr27 - yrNow)}</span></b> بالسنة). الرسم الثابت لحاله <span class="num">${f2(T().n27.fixed30 * (1 + T().n27.vat))}</span> ريال/شهر.</div>
+    </section>`;
+  }
+
+  if(!hidden.has('reading')){
+    const ds = daysSince(c.lastDate);
+    h += `<section class="card"><div class="reading">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3s-6 6.5-6 11a6 6 0 0 0 12 0c0-4.5-6-11-6-11z"/><path d="M9.5 14.5a2.5 2.5 0 0 0 2.5 2.5"/></svg></div>
+        <div class="x"><div class="m">آخر قراءة للعداد</div><div class="v"><span class="num">${f3(c.lastRead)}</span> <small>م³</small></div>
+          <div class="m"><span class="num">${esc(c.lastDate)}</span> · ${sinceText(ds)}</div></div></div>
+    </section>`;
+  }
+  if(!hidden.has('lastBill')){
+    h += `<section class="card"><h2>آخر فاتورة رسمية <span class="sp"></span>${statusChip(lb.status)}</h2>
+      <div class="kpis">
+        <div class="kpi"><div class="k">${esc(monthName(lb.month))}</div><div class="v"><span class="num">${f2(lb.amount)}</span> <small>ريال</small></div></div>
+        <div class="kpi"><div class="k">الاستهلاك</div><div class="v"><span class="num">${f2(lb.cons)}</span> <small>م³</small></div></div>
+      </div>
+      <div class="row" style="margin-top:6px"><span class="l">تاريخ السداد</span><span class="r num">${esc(lb.paid || '—')}</span></div>
+    </section>`;
+  }
+  return h;
+}
+
+function simHTML(D){
+  const c = D.current;
+  const st = D.stats || {};
+  const days = SIM?.days || c.days || 30;
+  const daily = SIM?.daily ?? (c.daily || 1);
+  const cons = daily * days;
+  const o = billOld(cons, days), n = billNew(cons, days);
+  const k = days / 30, lim2 = T().old.lim[1] * k;
+  const presets = [
+    ['معدلك الحالي', c.daily], ['متوسط 12 شهر', st.avgCons ? st.avgCons / 30 : null], ['حد الثانية', lim2 / days], ['0.8', 0.8], ['0.6', 0.6]
+  ].filter(p => p[1]);
+  const at2 = billOld(Math.min(cons, lim2), days), at2n = billNew(Math.min(cons, lim2), days);
+  return `<section class="card sim"><h2>محاكي الفاتورة</h2>
+    <div class="big"><span class="num">${f2(daily)}</span> <small>م³ باليوم</small></div>
+    <div class="sub"><span class="num">${f0(daily * 1000)}</span> لتر/يوم · <span class="num">${f1(cons)}</span> م³ خلال <span class="num">${days}</span> يوم</div>
+    <input type="range" id="simR" min="0.2" max="2.5" step="0.01" value="${daily.toFixed(2)}" aria-label="الاستهلاك اليومي">
+    <div class="chips" id="simP">${presets.map(([t, v]) => `<button data-v="${v.toFixed(3)}" class="${Math.abs(v - daily) < 0.006 ? 'on' : ''}">${t}${/\d/.test(t) ? '' : ' <span class="num">' + f2(v) + '</span>'}</button>`).join('')}</div>
+    <div class="seg" id="simD" style="margin:10px 0 0"><button data-d="30" class="${days === 30 ? 'on' : ''}">30 يوم</button><button data-d="31" class="${days === 31 ? 'on' : ''}">31 يوم</button></div>
+    <div class="res">
+      <div><div class="k">التعرفة الحالية</div><div class="v"><span class="num">${f2(o.total)}</span> <small>ريال</small></div>
+        <div class="t ${isT3(o.tier) ? 'up' : 'down'}">الشريحة ${esc(o.tier)}</div></div>
+      <div class="n27"><div class="k">تعرفة 2027</div><div class="v"><span class="num">${f2(n.total)}</span> <small>ريال</small></div>
+        <div class="t ${isT3(n.tier) ? 'up' : 'down'}">الشريحة ${esc(n.tier)} · <span class="num">+${f2(n.total - o.total)}</span></div></div>
+    </div>
+    <table class="bd"><thead><tr><th>البند</th><th>الحالية</th><th>2027</th></tr></thead><tbody>
+      <tr><td>المياه</td><td><span class="num">${f2(o.w)}</span></td><td><span class="num">${f2(n.w)}</span></td></tr>
+      <tr><td>الصرف الصحي</td><td><span class="num">${f2(o.s)}</span></td><td><span class="num">${f2(n.s)}</span></td></tr>
+      <tr><td>العداد / الرسم الثابت</td><td><span class="num">${f2(o.m)}</span></td><td><span class="num">${f2(n.m)}</span></td></tr>
+      <tr><td>الضريبة</td><td><span class="num">${f2(o.vat)}</span></td><td><span class="num">${f2(n.vat)}</span></td></tr>
+      <tr class="tot"><td>الإجمالي</td><td><span class="num">${f2(o.total)}</span></td><td><span class="num">${f2(n.total)}</span></td></tr>
+    </tbody></table>
+    ${cons > lim2 ? `<div class="save">💡 لو نزلت لحد الشريحة الثانية (<span class="num">${f1(lim2)}</span> م³ = <span class="num">${f2(lim2/days)}</span> م³/يوم) توفر <b class="num">${f2(o.total - at2.total)}</b> ريال الحين، و <b class="num">${f2(n.total - at2n.total)}</b> ريال في 2027</div>` : ''}
+    <div class="cmpline"><span>كل م³ إضافي في شريحتك</span><span>الحالية <b class="num">${f2(perM3(o.tier, false))}</b> · 2027 <b class="num">${f2(perM3(n.tier, true))}</b> ريال</span></div>
+  </section>`;
+}
+
+function analysisHTML(D, hidden){
+  const bills = D.bills || [], b12 = bills.slice(-12), st = D.stats || {};
+  let h = '';
+  if(!hidden.has('chartCons') && b12.length){
+    const items = b12.slice().reverse().map(b => ({
+      label: monthShort(b.month), value: b.cons, faded: b.status === 'جارية',
+      color: isT3(b.tier) ? 'var(--t3)' : 'var(--t2)',
+      tip: `${esc(monthName(b.month))}<br><b class="num">${f2(b.cons)}</b> م³ · ${esc(b.tier)}${b.status === 'جارية' ? ' · جارية' : ''}`
+    }));
+    h += `<section class="card"><h2>الاستهلاك الشهري (م³)</h2>${barChart(items, { ref: 30, title: 'الاستهلاك الشهري' })}
+      <div class="legend"><span><i style="background:var(--t2)"></i>الأولى/الثانية</span><span><i style="background:var(--t3)"></i>الثالثة</span><span><i style="background:var(--t2);opacity:.45"></i>الشهر الجاري</span><span><i class="dash"></i>حد الثانية ≈ 30</span></div></section>`;
+  }
+  const off = bills.filter(b => b.status !== 'جارية' && b.official != null).slice(-12);
+  if(!hidden.has('chart27') && off.length){
+    const items = off.slice().reverse().map(b => {
+      const n = b.n27 != null ? b.n27 : billNew(b.cons || 0, b.days || 30).total;
+      return { label: monthShort(b.month), a: b.official, b: n, tip: `${esc(monthName(b.month))}<br>الحالية <b class="num">${f2(b.official)}</b> · 2027 <b class="num">${f2(n)}</b> ريال` };
+    });
+    h += `<section class="card"><h2>الفاتورة الحالية مقابل تعرفة 2027 (ريال)</h2>${groupedChart(items, { colA:'var(--t2)', colB:'#7C3AED', title:'مقارنة التعرفتين' })}
+      <div class="legend"><span><i style="background:var(--t2)"></i>المدفوع فعلًا</span><span><i style="background:#7C3AED"></i>نفس الاستهلاك بتعرفة 2027</span></div></section>`;
+  }
+  const iv = intervals();
+  if(!hidden.has('chartRate') && iv.length){
+    const med = median(iv.slice(-21).map(m => m.rate));
+    const items = iv.slice(-16).reverse().map(m => ({
+      label: dShort(m.date), value: m.rate, color: m.rate > Math.max(1.5, (med || 1) * 2) ? 'var(--t3)' : 'var(--t2)',
+      tip: `<span class="num">${esc(m.date)}</span><br><b class="num">${f3(m.diff)}</b> م³ خلال <span class="num">${m.days}</span> يوم = <b class="num">${f2(m.rate)}</b>/يوم`
+    }));
+    h += `<section class="card"><h2>المعدل اليومي بين القراءات (م³/يوم)</h2>${barChart(items, { ref: 1, title: 'المعدل اليومي' })}
+      <div class="legend"><span><i style="background:var(--t2)"></i>طبيعي</span><span><i style="background:var(--t3)"></i>أعلى من ضعف المعتاد</span><span><i class="dash"></i>1 م³/يوم = حد الثانية</span></div></section>`;
+  }
+  if(!hidden.has('fills') && iv.length){
+    const last30 = (DATA.meter || []).filter(m => daysSince(m.date) != null && daysSince(m.date) <= 30);
+    const gaps = iv.slice(-20).map(m => m.days);
+    const top = iv.slice(-30).reduce((a, m) => (!a || m.rate > a.rate) ? m : a, null);
+    const avgFill = iv.slice(-20).reduce((s, m) => s + m.diff, 0) / Math.max(1, iv.slice(-20).length);
+    h += `<section class="card"><h2>عادات التعبئة</h2><div class="minis">
+      <div class="kpi"><div class="k">قراءات آخر 30 يوم</div><div class="v"><span class="num">${last30.length}</span></div></div>
+      <div class="kpi"><div class="k">متوسط الأيام بين القراءات</div><div class="v"><span class="num">${f1(gaps.reduce((a,b)=>a+b,0) / Math.max(1,gaps.length))}</span> <small>يوم</small></div></div>
+      <div class="kpi"><div class="k">متوسط التعبئة</div><div class="v"><span class="num">${f2(avgFill)}</span> <small>م³</small></div></div>
+      <div class="kpi"><div class="k">أعلى معدل (آخر 30 قراءة)</div><div class="v"><span class="num anom">${top ? f2(top.rate) : '—'}</span> <small>م³/يوم</small></div><div class="k">${top ? '<span class="num">' + esc(top.date) + '</span>' : ''}</div></div>
+    </div></section>`;
+  }
+  if(!hidden.has('stats')){
+    h += `<section class="card"><h2>آخر 12 فاتورة رسمية</h2>
+      <div class="kpis">
+        <div class="kpi"><div class="k">متوسط الاستهلاك</div><div class="v"><span class="num">${f1(st.avgCons)}</span> <small>م³</small></div></div>
+        <div class="kpi"><div class="k">متوسط الفاتورة</div><div class="v"><span class="num">${f2(st.avgBill)}</span> <small>ريال</small></div></div>
+        <div class="kpi"><div class="k">إجمالي المدفوع</div><div class="v"><span class="num">${f2(st.totalPaid)}</span> <small>ريال</small></div></div>
+        <div class="kpi"><div class="k">إجمالي الاستهلاك</div><div class="v"><span class="num">${f1(st.totalCons)}</span> <small>م³</small></div></div>
+      </div>
+      <div class="row" style="margin-top:6px"><span class="l">أشهر دخلت الشريحة الثالثة</span><span class="r num" style="color:var(--warn)">${st.tier3Months ?? 0}</span></div>
+      <div class="row"><span class="l">دفعت بسبب الشريحة الثالثة</span><span class="r" style="color:var(--warn)"><span class="num">${f2(st.tier3Paid)}</span> ريال</span></div>
+      <div class="row"><span class="l">أعلى / أقل فاتورة</span><span class="r num">${f2(st.maxBill)} / ${f2(st.minBill)}</span></div>
+      <div class="row"><span class="l">استهلاك آخر 7 / 30 يوم</span><span class="r"><span class="num">${f2(st.last7)} / ${f2(st.last30)}</span> م³</span></div>
+    </section>`;
+  }
+  return h;
+}
+
+function logHTML(D, hidden){
+  let h = '';
+  if(!hidden.has('meterLog') && (D.meter || []).length){
+    const all = D.meter.slice().reverse();
+    h += `<section class="card"><h2>سجل العداد</h2><div class="list" id="meterList">${meterRows(all.slice(0, 12))}</div>
+      ${all.length > 12 ? `<button class="more" data-more="meter">عرض الكل (${all.length})</button>` : ''}</section>`;
+  }
+  if(!hidden.has('bills') && (D.bills || []).length){
+    const all = D.bills.slice().reverse();
+    h += `<section class="card"><h2>الفواتير</h2><div class="list" id="billList">${billRows(all.slice(0, 8))}</div>
+      ${all.length > 8 ? `<button class="more" data-more="bills">عرض الكل (${all.length})</button>` : ''}</section>`;
+  }
+  return h;
+}
 
 function render(){
   const D = DATA; if(!D) return;
-  const c = D.current, lb = D.lastBill, st = D.stats;
   const hidden = new Set(settings.hidden);
   $('#updated').textContent = 'آخر تحديث ' + (D.generatedAt || '—') + (isDemo ? ' · تجريبي' : '');
   document.querySelectorAll('.tabs button').forEach(b => b.classList.toggle('on', b.dataset.t === TAB));
-  const bills = D.bills || [];
-  let h = '';
-
-  if(TAB === 'home'){
-    if(!hidden.has('period')){
-      const t3 = isT3(c.tierProj);
-      h += `<section class="card hero">
-        <div class="hd"><span>الفترة الحالية · ${esc(monthName((c.start || '').slice(0,7)))}</span><span class="sp"></span>
-          <span class="pill ${t3 ? 't3' : ''}">المتوقع: ${esc(c.tierProj)}</span></div>
-        ${gauge(c)}
-        <div class="gcenter"><div class="v"><span class="num">${f2(c.cons)}</span> <small>م³</small></div>
-          <div class="s">استهلاك الفترة · المتوقع <span class="num">${f1(c.projCons)}</span> م³</div></div>
-        <div class="bill">
-          <div class="main"><div class="k">الفاتورة المتوقعة</div><div class="v"><span class="num">${f2(c.billProj)}</span> <small>ريال</small></div></div>
-          <div><div class="k">حتى الآن</div><div class="v"><span class="num">${f2(c.billNow)}</span> <small>ريال</small></div></div>
-        </div>
-      </section>`;
-      h += c.left >= 0
-        ? `<div class="status ok"><span class="ic">🟢</span><span>باقي لك <b class="num">${f2(c.left)}</b> م³ قبل الشريحة الثالثة — يعني <b class="num">${f2(c.allowedDaily)}</b> م³ باليوم لبقية الفترة</span></div>`
-        : `<div class="status bad"><span class="ic">🔴</span><span>دخلت الشريحة الثالثة بـ <b class="num">${f2(-c.left)}</b> م³ — كل م³ إضافي بـ <b class="num">${f2(c.tier3Cost)}</b> ريال</span></div>`;
-      const prev = bills.filter(b => b.status !== 'جارية' && b.daily).slice(-1)[0];
-      const pct = prev && c.daily ? (c.daily / prev.daily - 1) * 100 : null;
-      h += `<div class="trio">
-        <div class="kpi"><div class="k">معدلك اليومي</div><div class="v"><span class="num">${f2(c.daily)}</span> <small>م³</small></div>
-          ${pct == null ? '' : `<div class="d ${pct > 0 ? 'up' : 'down'}"><span class="num">${pct > 0 ? '▲' : '▼'} ${Math.abs(pct).toFixed(0)}%</span> عن ${esc(monthShort(prev.month))}</div>`}</div>
-        <div class="kpi"><div class="k">أيام الفترة</div><div class="v"><span class="num">${c.elapsed}/${c.days}</span></div><div class="d" style="color:var(--muted)">باقي <span class="num">${c.daysLeft}</span> يوم</div></div>
-        <div class="kpi"><div class="k">حد الثانية</div><div class="v"><span class="num">${f1(c.lim2 || c.tier2Limit)}</span> <small>م³</small></div><div class="d" style="color:var(--muted)">لهذه الفترة</div></div>
-      </div>`;
-    }
-    if(!hidden.has('reading')){
-      const ds = daysSince(c.lastDate);
-      h += `<section class="card"><div class="reading">
-          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3s-6 6.5-6 11a6 6 0 0 0 12 0c0-4.5-6-11-6-11z"/><path d="M9.5 14.5a2.5 2.5 0 0 0 2.5 2.5"/></svg></div>
-          <div class="x"><div class="m">آخر قراءة للعداد</div><div class="v"><span class="num">${f3(c.lastRead)}</span> <small>م³</small></div>
-            <div class="m"><span class="num">${esc(c.lastDate)}</span> · ${sinceText(ds)}</div></div></div>
-        ${ds != null && ds >= 4 ? `<div class="remind">⏰ صار لك <b class="num">${ds}</b> أيام بدون قراءة — إذا عبّيت الخزان سجّلها من الاختصار</div>` : ''}
-      </section>`;
-    }
-    if(!hidden.has('lastBill')){
-      h += `<section class="card"><h2>آخر فاتورة رسمية <span class="sp"></span>${statusChip(lb.status)}</h2>
-        <div class="kpis">
-          <div class="kpi"><div class="k">${esc(monthName(lb.month))}</div><div class="v"><span class="num">${f2(lb.amount)}</span> <small>ريال</small></div></div>
-          <div class="kpi"><div class="k">الاستهلاك</div><div class="v"><span class="num">${f2(lb.cons)}</span> <small>م³</small></div></div>
-        </div>
-        <div class="row" style="margin-top:6px"><span class="l">تاريخ السداد</span><span class="r num">${esc(lb.paid || '—')}</span></div>
-        ${lb.unpaid ? `<div class="row"><span class="l">فواتير غير مدفوعة</span><span class="r num" style="color:var(--bad)">${lb.unpaid}</span></div>` : ''}
-      </section>`;
-    }
-    if(!hidden.has('mini') && bills.length){
-      h += `<section class="card" id="miniCard" style="cursor:pointer"><h2>آخر 6 أشهر (م³) <span class="sp"></span><span style="font-size:12px;color:var(--brand)">الرسوم ‹</span></h2>
-        ${sparkBars(bills)}
-        <div class="legend"><span><i style="background:var(--t2)"></i>الأولى/الثانية</span><span><i style="background:var(--t3)"></i>الثالثة</span></div></section>`;
-    }
-  }
-
-  const b12 = bills.slice(-12);
-  if(TAB === 'charts'){
-    if(!hidden.has('chartCons') && b12.length){
-      const items = b12.slice().reverse().map(b => ({
-        label: monthShort(b.month), value: b.cons, faded: b.status === 'جارية',
-        color: isT3(b.tier) ? 'var(--t3)' : 'var(--t2)',
-        tip: `${esc(monthName(b.month))}<br><b class="num">${f2(b.cons)}</b> م³ · ${esc(b.tier)}${b.status === 'جارية' ? ' · جارية' : ''}`
-      }));
-      h += `<section class="card"><h2>الاستهلاك الشهري (م³)</h2>
-        ${barChart(items, { ref: 30, title: 'الاستهلاك الشهري' })}
-        <div class="legend"><span><i style="background:var(--t2)"></i>الأولى/الثانية</span><span><i style="background:var(--t3)"></i>الثالثة</span><span><i style="background:var(--t2);opacity:.45"></i>الشهر الجاري</span><span><i class="dash"></i>حد الثانية ≈ 30</span></div>
-      </section>`;
-    }
-    if(!hidden.has('chartAmount') && b12.length){
-      const items = b12.slice().reverse().map(b => {
-        const amt = b.official != null ? b.official : b.calc;
-        return { label: monthShort(b.month), value: amt, faded: b.official == null,
-          color: isT3(b.tier) ? 'var(--t3)' : 'var(--t2)',
-          tip: `${esc(monthName(b.month))}<br><b class="num">${f2(amt)}</b> ريال${b.official == null ? ' · تقديري' : ''}` };
-      });
-      h += `<section class="card"><h2>مبلغ الفاتورة (ريال)</h2>${barChart(items, { title: 'مبلغ الفاتورة' })}
-        <div class="legend"><span><i style="background:var(--t2)"></i>الأولى/الثانية</span><span><i style="background:var(--t3)"></i>دخلت الثالثة</span><span><i style="background:var(--t2);opacity:.45"></i>تقديري</span></div></section>`;
-    }
-    const mtr = (D.meter || []).filter(m => m.rate != null && m.days > 0);
-    if(!hidden.has('chartRate') && mtr.length){
-      const items = mtr.slice(-16).reverse().map(m => ({
-        label: dShort(m.date), value: m.rate, color: m.rate > 1 ? 'var(--t3)' : 'var(--t2)',
-        tip: `<span class="num">${esc(m.date)}</span><br><b class="num">${f3(m.diff)}</b> م³ خلال <span class="num">${m.days}</span> يوم = <b class="num">${f2(m.rate)}</b>/يوم`
-      }));
-      h += `<section class="card"><h2>المعدل اليومي بين القراءات (م³/يوم)</h2>
-        ${barChart(items, { ref: 1, title: 'المعدل اليومي' })}
-        <div class="legend"><span><i style="background:var(--t2)"></i>1 م³/يوم أو أقل</span><span><i style="background:var(--t3)"></i>أعلى</span><span><i class="dash"></i>1 م³/يوم = حد الثانية</span></div></section>`;
-    }
-    if(!hidden.has('stats')){
-      h += `<section class="card"><h2>آخر 12 فاتورة رسمية</h2>
-        <div class="kpis">
-          <div class="kpi"><div class="k">متوسط الاستهلاك</div><div class="v"><span class="num">${f1(st.avgCons)}</span> <small>م³</small></div></div>
-          <div class="kpi"><div class="k">متوسط الفاتورة</div><div class="v"><span class="num">${f2(st.avgBill)}</span> <small>ريال</small></div></div>
-          <div class="kpi"><div class="k">إجمالي المدفوع</div><div class="v"><span class="num">${f2(st.totalPaid)}</span> <small>ريال</small></div></div>
-          <div class="kpi"><div class="k">إجمالي الاستهلاك</div><div class="v"><span class="num">${f1(st.totalCons)}</span> <small>م³</small></div></div>
-        </div>
-        <div class="row" style="margin-top:6px"><span class="l">أشهر دخلت الشريحة الثالثة</span><span class="r num" style="color:var(--warn)">${st.tier3Months ?? 0}</span></div>
-        <div class="row"><span class="l">دفعت بسبب الشريحة الثالثة</span><span class="r" style="color:var(--warn)"><span class="num">${f2(st.tier3Paid)}</span> ريال</span></div>
-        <div class="row"><span class="l">أعلى / أقل فاتورة</span><span class="r num">${f2(st.maxBill)} / ${f2(st.minBill)}</span></div>
-        <div class="row"><span class="l">استهلاك آخر 7 أيام</span><span class="r"><span class="num">${f3(st.last7)}</span> م³</span></div>
-        <div class="row"><span class="l">استهلاك آخر 30 يوم</span><span class="r"><span class="num">${f3(st.last30)}</span> م³</span></div>
-      </section>`;
-    }
-  }
-
-  if(TAB === 'log'){
-    if(!hidden.has('meterLog') && (D.meter || []).length){
-      const all = D.meter.slice().reverse();
-      h += `<section class="card"><h2>سجل العداد</h2><div class="list" id="meterList">${meterRows(all.slice(0, 10))}</div>
-        ${all.length > 10 ? `<button class="more" data-more="meter">عرض الكل (${all.length})</button>` : ''}</section>`;
-    }
-    if(!hidden.has('bills') && bills.length){
-      const all = bills.slice().reverse();
-      h += `<section class="card"><h2>الفواتير</h2><div class="list" id="billList">${billRows(all.slice(0, 8))}</div>
-        ${all.length > 8 ? `<button class="more" data-more="bills">عرض الكل (${all.length})</button>` : ''}</section>`;
-    }
-  }
+  let h = TAB === 'sim' ? simHTML(D) : TAB === 'analysis' ? analysisHTML(D, hidden) : TAB === 'log' ? logHTML(D, hidden) : homeHTML(D, hidden);
   if(!h) h = `<section class="card" style="text-align:center;color:var(--muted)">كل أقسام هذي الصفحة مخفية — فعّلها من الإعدادات</section>`;
   $('#app').innerHTML = h;
-  $('#miniCard')?.addEventListener('click', () => setTab('charts'));
   document.querySelectorAll('[data-more]').forEach(b => b.addEventListener('click', () => {
     if(b.dataset.more === 'meter') $('#meterList').innerHTML = meterRows(D.meter.slice().reverse());
     else $('#billList').innerHTML = billRows(D.bills.slice().reverse());
     b.remove();
   }));
+  if(TAB === 'sim'){
+    const r = $('#simR');
+    r.addEventListener('input', () => { SIM = { daily: +r.value, days: SIM?.days || D.current.days || 30 }; renderSimKeepFocus(); });
+    $('#simP').addEventListener('click', e => { const v = e.target.closest('button')?.dataset.v; if(v){ SIM = { daily: +v, days: SIM?.days || D.current.days || 30 }; render(); } });
+    $('#simD').addEventListener('click', e => { const d = e.target.closest('button')?.dataset.d; if(d){ SIM = { daily: SIM?.daily ?? D.current.daily, days: +d }; render(); } });
+  }
 }
-
+function renderSimKeepFocus(){
+  const v = $('#simR').value; render(); const r = $('#simR'); if(r){ r.value = v; r.focus({ preventScroll:true }); }
+}
 function meterRows(rows){
+  const med = median(intervals().slice(-21).map(m => m.rate)) || 1;
   return rows.map(m => `<div class="it">
     <div class="a"><span class="num">${f3(m.value)}</span> م³</div>
     <div class="c">${m.diff != null ? '<span class="num">+' + f3(m.diff) + '</span>' : '—'}</div>
     <div class="b"><span class="num">${esc(m.date)}</span>${m.time ? ' · <span class="num">' + esc(m.time) + '</span>' : ''}${m.note ? ' · ' + esc(m.note) : ''}</div>
-    <div class="d">${m.rate != null ? '<span class="num">' + f2(m.rate) + '</span>/يوم' : ''}</div>
+    <div class="d">${m.rate != null && m.days >= 1 ? '<span class="num ' + (m.rate > Math.max(1.5, med * 2) ? 'anom' : '') + '">' + f2(m.rate) + '</span>/يوم' : ''}</div>
   </div>`).join('');
 }
 function billRows(rows){
   return rows.map(b => {
     const amt = b.official != null ? b.official : b.calc;
+    const n = b.n27 != null ? b.n27 : null;
     return `<div class="it">
       <div class="a">${esc(monthName(b.month))}</div>
       <div class="c"><span class="num">${f2(amt)}</span> ريال</div>
-      <div class="b"><span class="num">${f2(b.cons)}</span> م³ · ${esc(b.tier)}${b.official == null ? ' · تقديري' : ''}</div>
+      <div class="b"><span class="num">${f2(b.cons)}</span> م³ · ${esc(b.tier)}${b.official == null ? ' · تقديري' : ''}${n != null ? ' · 2027: <span class="num">' + f2(n) + '</span>' : ''}</div>
       <div class="d">${statusChip(b.status)}</div>
     </div>`;
   }).join('');
@@ -581,9 +794,7 @@ async function api(a){
 
 /* ============ القفل ============ */
 let pin = '';
-function openLock(msg){
-  $('#lock').classList.add('on'); $('#pinErr').textContent = msg || ''; pin = ''; drawDots();
-}
+function openLock(msg){ $('#lock').classList.add('on'); $('#pinErr').textContent = msg || ''; pin = ''; drawDots(); }
 function drawDots(){ document.querySelectorAll('#dots i').forEach((d, i) => d.classList.toggle('f', i < pin.length)); }
 function buildPad(){
   const keys = ['1','2','3','4','5','6','7','8','9','','0','⌫'];
@@ -618,10 +829,7 @@ function openSheet(){
     `<label class="tog"><span>${t}</span><input type="checkbox" data-s="${k}" ${settings.hidden.includes(k) ? '' : 'checked'}></label>`).join('');
   $('#sheet').classList.add('on');
 }
-$('#themeSeg').addEventListener('click', e => {
-  const v = e.target.dataset.v; if(!v) return;
-  settings.theme = v; LS.set('bsw_settings', settings); applyTheme(); openSheet();
-});
+$('#themeSeg').addEventListener('click', e => { const v = e.target.dataset.v; if(!v) return; settings.theme = v; LS.set('bsw_settings', settings); applyTheme(); openSheet(); });
 $('#secToggles').addEventListener('change', e => {
   const k = e.target.dataset.s; if(!k) return;
   settings.hidden = settings.hidden.filter(x => x !== k); if(!e.target.checked) settings.hidden.push(k);
@@ -634,38 +842,43 @@ $('#btnLogout').addEventListener('click', () => {
   $('#sheet').classList.remove('on'); if(!isDemo) openLock();
 });
 $('#btnSettings').addEventListener('click', openSheet);
-$('#tabs').addEventListener('click', e => { const t = e.target.closest('button')?.dataset.t; if(t) setTab(t); });
 $('#btnRefresh').addEventListener('click', load);
+$('#tabs').addEventListener('click', e => { const t = e.target.closest('button')?.dataset.t; if(t) setTab(t); });
 document.addEventListener('visibilitychange', () => { if(document.visibilityState === 'visible' && auth) load(); });
 $('#ver').textContent = 'v' + CONFIG.VERSION;
 
 /* ============ بيانات تجريبية (تظهر لين تحط رابط /exec) ============ */
-const DEMO = {
-  generatedAt: '2026-10-20 08:40',
-  current: { start:'2026-10-01', startRead:1094.64, end:'2026-11-01', lastDate:'2026-10-16', lastRead:1105.241, elapsed:15, days:31,
-    cons:10.601, daily:0.707, projCons:21.91, billNow:7.78, billProj:18.27, tierProj:'الثانية', tier2Limit:31, left:20.399,
-    daysLeft:16, allowedDaily:1.275, tier3Cost:5.175, lim1:15.5, lim2:31, lim3:46.5 },
-  lastBill: { month:'2026-09', cons:19.6, amount:16.28, status:'مدفوعة', paid:'2026-10-04', unpaid:0 },
-  stats: { totalCons:353.04, avgCons:29.42, totalPaid:438.7, avgBill:36.56, tier3Months:5, tier3Paid:64.48, maxBill:49.6, minBill:16.28, last7:2.17, last30:16.65 },
-  bills: [
-    ['2025-08',31.22,'الثالثة',36.51,36.5],['2025-09',28.17,'الثانية',31.06,31.06],['2025-10',32.98,'الثالثة',45.62,45.62],
-    ['2025-11',28.24,'الثانية',31.18,31.18],['2025-12',33.46,'الثالثة',48.09,48.08],['2026-01',27.35,'الثانية',29.07,29.08],
-    ['2026-02',32.97,'الثالثة',49.59,49.6],['2026-03',33.47,'الثالثة',48.14,48.13],['2026-04',29.96,'الثانية',34.14,34.14],
-    ['2026-05',25.11,'الثانية',25.78,25.78],['2026-06',28.24,'الثانية',31.18,31.18],['2026-07',28.08,'الثانية',30.9,30.9],
-    ['2026-08',33.58,'الثالثة',48.72,48.73],['2026-09',19.6,'الثانية',16.28,16.28],['2026-10',10.601,'الأولى',7.78,null]
-  ].map(([month,cons,tier,calc,official],i,arr) => ({ month, cons, tier, calc, official, daily: +(cons/30).toFixed(3),
-    status: i === arr.length-1 ? 'جارية' : 'مدفوعة', paid: month === '2026-09' ? '2026-10-04' : '' })),
-  meter: [
-    ['2026-08-30',1074.368],['2026-08-31',1075.039],['2026-09-05',1077.258],['2026-09-11',1079.133],['2026-09-19',1084.708],
-    ['2026-09-20',1085.896],['2026-09-21',1086.286],['2026-09-25',1090.586],['2026-09-27',1092.236],['2026-09-29',1092.573],
+const DEMO = (() => {
+  const meterRaw = [
     ['2026-09-30',1094.639],['2026-10-01',1095.726],['2026-10-04',1099.066],['2026-10-09',1100.586],['2026-10-10',1102.869],
-    ['2026-10-11',1104.255],['2026-10-16',1105.241]
-  ].map(([date,value],i,a) => {
+    ['2026-10-11',1104.255],['2026-10-16',1105.241],['2026-10-17',1109.278],['2026-10-18',1110.419],['2026-10-19',1111.343],
+    ['2026-10-23',1112.920],['2026-10-24',1115.776],['2026-10-26',1117.874],['2026-10-28',1119.244],['2026-10-29',1120.990],
+    ['2026-10-30',1121.804],['2026-10-31',1124.031],['2026-11-01',1125.560],['2026-11-02',1126.411],['2026-11-04',1129.900]
+  ];
+  const meter = meterRaw.map(([date,value],i,a) => {
     if(!i) return { date, value, diff:null, days:null, rate:null, time:'', note:'' };
-    const diff = +(value - a[i-1][1]).toFixed(3), days = Math.round((new Date(date) - new Date(a[i-1][0])) / 864e5);
-    return { date, value, diff, days, rate: days ? +(diff/days).toFixed(3) : null, time: i === a.length-1 ? '18:38' : '', note:'' };
-  })
-};
+    const diff = +(value - a[i-1][1]).toFixed(3), days = Math.round((toDate(date) - toDate(a[i-1][0])) / 864e5);
+    return { date, value, diff, days, rate: days ? +(diff/days).toFixed(3) : null, time:'19:00', note:'' };
+  });
+  const B = [
+    ['2025-11',28.24,'الثانية',31.18,31.18,30,106.05],['2025-12',33.46,'الثالثة',48.09,48.08,31,132.84],['2026-01',27.35,'الثانية',29.07,29.08,31,103.27],
+    ['2026-02',32.97,'الثالثة',49.59,49.6,30,132.62],['2026-03',33.47,'الثالثة',48.14,48.13,31,132.91],['2026-04',29.96,'الثانية',34.14,34.14,30,111.99],
+    ['2026-05',25.11,'الثانية',25.78,25.78,30,95.25],['2026-06',28.24,'الثانية',31.18,31.18,30,106.05],['2026-07',28.08,'الثانية',30.9,30.9,30,105.5],
+    ['2026-08',33.58,'الثالثة',48.72,48.73,31,133.66],['2026-09',19.6,'الثانية',16.28,16.28,30,76.25],['2026-10',29.39,'الثانية',32.59,32.6,31,110.31],
+    ['2026-11',5.87,'الأولى',8.4,null,30,48.0]
+  ];
+  const bills = B.map(([month,cons,tier,calc,official,days,n27],i,arr) => ({ month, start: month + '-01', cons, tier, calc, official, days, n27,
+    daily: +(cons/days).toFixed(3), status: i === arr.length-1 ? 'جارية' : 'مدفوعة', paid: official ? month + '-28' : '' }));
+  return {
+    generatedAt: '2026-11-04 19:10',
+    current: { start:'2026-11-01', startRead:1124.03, end:'2026-12-01', lastDate:'2026-11-04', lastRead:1129.9, elapsed:4, days:30,
+      cons:5.87, daily:1.468, projCons:44.03, billNow:8.4, billProj:107.5, tierProj:'الثالثة', tier2Limit:30, left:24.13,
+      daysLeft:26, allowedDaily:0.928, tier3Cost:5.175, lim1:15, lim2:30, lim3:45 },
+    lastBill: { month:'2026-10', cons:29.39, amount:32.6, status:'مدفوعة', paid:'2026-11-04', unpaid:0 },
+    stats: { totalCons:349.45, avgCons:29.12, totalPaid:425.68, avgBill:35.47, tier3Months:4, tier3Paid:54.23, maxBill:49.6, minBill:16.28, last7:9.6, last30:30.1 },
+    bills, meter, tariff: DEFAULT_TARIFF
+  };
+})();
 
 buildPad();
 load();
